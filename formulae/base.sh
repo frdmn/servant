@@ -14,11 +14,11 @@ args_timezone="${1}"
 args_swap="${2}"
 
 # Use apt mirror based on geographical location
-cat > /etc/apt/sources.list.d/geo-mirror <<- EOL
-    deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse
-    deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse
-    deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse
-    deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse
+cat > /etc/apt/sources.list.d/geo-mirror <<EOL
+deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse
 EOL
 
 # Setting Timezone to to ${args_timezone} & Locale to en_US.UTF-8

@@ -52,4 +52,10 @@ Vagrant.configure('2') do |config|
     id: "core",
     :nfs => true,
     :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2,fsc']
+
+  ###
+  # Formulae
+  ###
+
+  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/base.sh", args: ["#{server[:timezone]}", "#{server[:swap]}"]
 end

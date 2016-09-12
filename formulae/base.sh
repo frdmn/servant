@@ -23,8 +23,8 @@ EOL
 
 # Setting Timezone to to ${args_timezone} & Locale to en_US.UTF-8
 sudo echo "${args_timezone}" > /etc/timezone
-sudo dpkg-reconfigure -f noninteractive tzdata | prefix "Timezone"
-sudo apt-get install -qq language-pack-en | prefix "Timezone"
+sudo dpkg-reconfigure -f noninteractive tzdata 2>&1 | prefix "Timezone"
+sudo apt-get install language-pack-en 2>&1 | prefix "Timezone"
 sudo locale-gen en_US | prefix "Timezone"
 sudo update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 | prefix "Timezone"
 

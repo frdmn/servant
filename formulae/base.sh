@@ -29,11 +29,16 @@ sudo locale-gen en_US | prefix "Timezone"
 sudo update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 | prefix "Timezone"
 
 # Updating system
-sudo apt-get update | prefix "Updates"
-sudo apt-get upgrade -qq | prefix "Updates"
+sudo apt-get update | prefix "APT update"
+sudo apt-get upgrade -y | prefix "APT upgrade"
 
 # Installing Base Packages
-sudo apt-get install -qq curl unzip git build-essential | prefix "Packages"
+sudo apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    unzip \
+    2>&1 | prefix "APT install"
 
 # Check if arguments are set
 if [[ ! ${args_swap} =~ false && ${args_swap} =~ ^[0-9]*$ ]]; then

@@ -39,7 +39,7 @@ Vagrant.configure('2') do |config|
   config.vm.define "iwelt.dev" do |iwelthost| end
 
   config.vm.network :private_network, ip: server[:ip]
-  config.vm.network :forwarded_port, guest: 80, host: server[:host_port_http]
+  config.vm.network :forwarded_port, guest: 80, host: general[:host_port_http]
 
   config.vm.provider :virtualbox do |vbox|
     vbox.customize ["modifyvm", :id, "--cpus", server[:cpus]]

@@ -3,9 +3,9 @@
 # Function to prefix stdout with current formulae name
 function prefix {
     if [[ ! -z "${1}" ]]; then
-        sed -e 's/^/[Base]['${1}'] /'
+        sed -e "s/^/[Base][${1}] /"
     else
-        sed -e 's/^/[Base] /'
+        sed -e "s/^/[Base] /"
     fi
 }
 

@@ -7,25 +7,26 @@
 ###
 
 general = {
-  :source_uri    => ".",
+  :source_uri     => ".",
+  :host_port_http => "8000",
 }
 
 server = {
-  :hostname      => "webserver.dev",
-  :ip            => "192.168.50.10",
-  :cpus          => "1",
-  :memory        => "512",
-  :swap          => false,
-  :timezone      => "Europe/Berlin"
+  :hostname       => "webserver.dev",
+  :ip             => "192.168.50.10",
+  :cpus           => "1",
+  :memory         => "512",
+  :swap           => false,
+  :timezone       => "Europe/Berlin"
 }
 
 mysql = {
-  :root_password => "root",
-  :remote        => false,
+  :root_password  => "root",
+  :remote         => false,
 }
 
 php = {
-  :version       => "5.6"
+  :version        => "5.5"
 }
 
 ###

@@ -56,4 +56,5 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/base.sh", args: ["#{server[:timezone]}", "#{server[:swap]}"]
   config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/php.sh", args: ["#{server[:timezone]}", "#{php[:version]}"]
+  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/apache.sh", args: ["#{server[:hostname]}"]
 end

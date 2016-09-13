@@ -48,10 +48,6 @@ sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
         Options -Indexes +FollowSymLinks +MultiViews
         AllowOverride All
         Require all granted
-
-        <FilesMatch ".+\.ph(p[345]?|t|tml)$">
-            SetHandler "proxy:fcgi://127.0.0.1:9000"
-        </FilesMatch>
     </Directory>
 
     CustomLog \${APACHE_LOG_DIR}/${args_hostname}_access.log combined
@@ -59,6 +55,15 @@ sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
 </VirtualHost>
 EOAPACHE
 
+# Create new Apache configuration file for PHP
+sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
+<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+    SetHandler "proxy:fcgi://127.0.0.1:9000"
+</FilesMatch>
+EOAPACHE
+
+# Enable configs and restart server
+sudo a2enconf phpmyadmin.conf php.conf | prefix "config"
 sudo a2ensite web1.conf | prefix "config"
 
 # Restart Apache

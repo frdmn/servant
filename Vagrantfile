@@ -47,11 +47,8 @@ Vagrant.configure('2') do |config|
     vbox.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 
-  # Use NFS for the shared folder
-  config.vm.synced_folder ".", "/vagrant",
-    id: "core",
-    :nfs => true,
-    :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2,fsc']
+  config.vm.synced_folder ".", "/var/nfs", type: "nfs"
+  config.bindfs.bind_folder "/var/nfs", "/vagrant"
 
   ###
   # Formulae

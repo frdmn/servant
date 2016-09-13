@@ -5,28 +5,19 @@
 # Variables and configuration
 ###
 
-general = {
-  :source_uri     => ".",
-  :host_port_http => "8000",
-}
+configuration_filename = "~/.idev.json"
 
-server = {
-  :hostname       => "webserver.dev",
-  :ip             => "192.168.50.10",
-  :cpus           => "1",
-  :memory         => "1024",
-  :swap           => false,
-  :timezone       => "Europe/Berlin"
-}
-
-mysql = {
-  :root_password  => "root",
-  :version        => 5.6
-}
-
-php = {
-  :version        => 5.5
-}
+# Check if configration file exists
+if File.exist?(File.expand_path configuration_filename)
+  # Store settings
+  configuration = JSON.parse(File.read(File.expand_path configuration_filename))
+else
+  # Return usage information and exit
+  sample = File.join(File.dirname(__FILE__), 'config-example.json')
+  puts "Error: No config file found (#{configurationname}). To apply the default configuration:\n\n"
+  puts "  cp #{sample} ~/.idev.json"
+  exit 1
+end
 
 ###
 # Vagrant bootstrap
@@ -35,15 +26,15 @@ php = {
 Vagrant.configure('2') do |config|
   config.vm.box = "ubuntu/trusty64"
   config.ssh.forward_agent = true
-  config.vm.hostname = server[:hostname]
-  config.vm.define server[:hostname] do |iwelthost| end
+  config.vm.hostname = configuration["server"]["hostname"]
+  config.vm.define configuration["server"]["hostname"] do |iwelthost| end
 
-  config.vm.network :private_network, ip: server[:ip]
-  config.vm.network :forwarded_port, guest: 80, host: general[:host_port_http]
+  config.vm.network :private_network, ip: configuration["server"]["ip"]
+  config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]
 
   config.vm.provider :virtualbox do |vbox|
-    vbox.customize ["modifyvm", :id, "--cpus", server[:cpus]]
-    vbox.customize ["modifyvm", :id, "--memory", server[:memory]]
+    vbox.customize ["modifyvm", :id, "--cpus", configuration["server"]["cpus"]]
+    vbox.customize ["modifyvm", :id, "--memory", configuration["server"]["memory"]]
     vbox.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 
@@ -54,9 +45,9 @@ Vagrant.configure('2') do |config|
   # Formulae
   ###
 
-  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/base.sh", args: ["#{server[:timezone]}", "#{server[:swap]}"]
-  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/php.sh", args: ["#{server[:timezone]}", "#{php[:version]}"]
-  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/apache.sh", args: ["#{server[:hostname]}"]
-  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/mysql.sh", args: ["#{mysql[:root_password]}", "#{mysql[:version]}"]
-  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/phpmyadmin.sh", args: ["#{mysql[:root_password]}"]
+  config.vm.provision "shell", path: "#{configuration["general"]["source_uri"]}/formulae/base.sh", args: ["#{configuration["server"]["timezone"]}", "#{configuration["server"]["swap"]}"]
+  config.vm.provision "shell", path: "#{configuration["general"]["source_uri"]}/formulae/php.sh", args: ["#{configuration["server"]["timezone"]}", "#{configuration["php"]["version"]}"]
+  config.vm.provision "shell", path: "#{configuration["general"]["source_uri"]}/formulae/apache.sh", args: ["#{configuration["server"]["hostname"]}"]
+  config.vm.provision "shell", path: "#{configuration["general"]["source_uri"]}/formulae/mysql.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["version"]}"]
+  config.vm.provision "shell", path: "#{configuration["general"]["source_uri"]}/formulae/phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
 end

@@ -12,7 +12,7 @@ function prefix {
 # Store arguments in variables
 args_hostname="${1}"
 
-# Add apt PPA for latest FULL stable Apache
+# Add apt PPA for latest stable Apache
 # (Required to remove conflicts with PHP PPA due to partial Apache upgrade within it)
 sudo add-apt-repository -y ppa:ondrej/apache2 2>&1 | prefix "PPA"
 
@@ -23,14 +23,14 @@ sudo apt-get update | prefix "APT update"
 sudo apt-get install -y apache2 2>&1 | prefix "APT install"
 
 # Add vagrant user to www-data group
-sudo usermod -a -G www-data vagrant
+sudo usermod -a -G www-data vagrant | prefix "config"
 
 # Enable modules
-sudo a2enmod rewrite actions ssl proxy_fcgi
+sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
 
 # Disable default virtual hosts
-sudo a2dissite 000-default.conf
-sudo rm /etc/apache2/sites-available/default-ssl.conf
+sudo a2dissite 000-default.conf | prefix "config"
+sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
 
 # Write new default virtual host
 sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
@@ -54,7 +54,7 @@ sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
 </VirtualHost>
 EOAPACHE
 
-sudo a2ensite web1.conf
+sudo a2ensite web1.conf | prefix "config"
 
 # Restart Apache
-sudo service apache2 restart
+sudo service apache2 restart | prefix "config"

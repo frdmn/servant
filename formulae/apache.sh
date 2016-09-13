@@ -30,6 +30,7 @@ sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
 
 # Disable default virtual hosts
 sudo a2dissite 000-default.conf | prefix "config"
+sudo rm /etc/apache2/sites-available/000-default.conf | prefix "config"
 sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
 
 # Symlink NFS share as document root

@@ -58,4 +58,5 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/php.sh", args: ["#{server[:timezone]}", "#{php[:version]}"]
   config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/apache.sh", args: ["#{server[:hostname]}"]
   config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/mysql.sh", args: ["#{mysql[:root_password]}", "#{mysql[:version]}"]
+  config.vm.provision "shell", path: "#{general[:source_uri]}/formulae/phpmyadmin.sh", args: ["#{mysql[:root_password]}"]
 end

@@ -14,7 +14,7 @@ args_root_password="${1}"
 random_hash="$(date | md5sum | cut -f 1 -d " ")"
 
 # Download and extract latest version
-wget -O- https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz | sudo tar xvz -C /var/www/ 2>&1 | prefix "Source"
+wget -O- https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz 2>&1 | sudo tar xvz -C /var/www/ 2>&1 | prefix "Source"
 sudo mv /var/www/phpMyAdmin-*-all-languages /var/www/phpmyadmin
 
 # Create new Apache configuration file

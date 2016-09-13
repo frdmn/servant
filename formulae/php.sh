@@ -21,49 +21,44 @@ sudo add-apt-repository -y ppa:ondrej/php 2>&1 | prefix "PPA"
 # Update repositories
 sudo apt-get update | prefix "APT update"
 
-# Store APT prefix based on desired PHP version
+# Store library directory name based on desired PHP version
 if [[ ${args_php_version} == "5.6" ]]; then
-    apt_php_prefix="php5.6"
-    apt_sqlite_package="sqlite3"
-    php_config_dir="/etc/php/5.6"
-    php_lib_dir="/usr/lib/php/20131226"
+    php_lib_dir="20131226"
 else
-    apt_php_prefix="php5"
-    apt_sqlite_package="sqlite"
-    php_config_dir="/etc/php5"
-    php_lib_dir="/usr/lib/php5/20121212"
+    php_lib_dir="20121212"
 fi
 
 # Install PHP packages
 sudo apt-get install -y \
-    ${apt_php_prefix}-cli \
-    ${apt_php_prefix}-curl \
-    ${apt_php_prefix}-fpm \
-    ${apt_php_prefix}-gd \
-    ${apt_php_prefix}-gmp \
-    ${apt_php_prefix}-imagick \
-    ${apt_php_prefix}-intl \
-    ${apt_php_prefix}-mcrypt \
-    ${apt_php_prefix}-mysql \
-    ${apt_php_prefix}-pgsql \
-    ${apt_php_prefix}-${apt_sqlite_package} \
-    ${apt_php_prefix}-xdebug \
+    php${args_php_version}-cli \
+    php${args_php_version}-curl \
+    php${args_php_version}-fpm \
+    php${args_php_version}-gd \
+    php${args_php_version}-gmp \
+    php${args_php_version}-imagick \
+    php${args_php_version}-intl \
+    php${args_php_version}-mbstring \
+    php${args_php_version}-mcrypt \
+    php${args_php_version}-mysqlnd \
+    php${args_php_version}-pgsql \
+    php${args_php_version}-sqlite3 \
+    php${args_php_version}-xdebug \
     2>&1 | prefix "APT install"
 
 # Use TCP listener instead of Unix socket
-sudo sed -i "s/listen =.*/listen = 127.0.0.1:9000/" ${php_config_dir}/fpm/pool.d/www.conf
+sudo sed -i "s/listen =.*/listen = 127.0.0.1:9000/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
 # Only allow localhost clients
-sudo sed -i "s/;listen.allowed_clients/listen.allowed_clients/" ${php_config_dir}/fpm/pool.d/www.conf
+sudo sed -i "s/;listen.allowed_clients/listen.allowed_clients/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
 # Run as vagrant instead of www-data
-sudo sed -i "s/user = www-data/user = vagrant/" ${php_config_dir}/fpm/pool.d/www.conf
-sudo sed -i "s/group = www-data/group = vagrant/" ${php_config_dir}/fpm/pool.d/www.conf
-sudo sed -i "s/listen\.owner.*/listen.owner = vagrant/" ${php_config_dir}/fpm/pool.d/www.conf
-sudo sed -i "s/listen\.group.*/listen.group = vagrant/" ${php_config_dir}/fpm/pool.d/www.conf
-sudo sed -i "s/listen\.mode.*/listen.mode = 0666/" ${php_config_dir}/fpm/pool.d/www.conf
+sudo sed -i "s/user = www-data/user = vagrant/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
+sudo sed -i "s/group = www-data/group = vagrant/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
+sudo sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
+sudo sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
+sudo sed -i "s/listen\.mode.*/listen.mode = 0666/" /etc/php/${args_php_version}/fpm/pool.d/www.conf
 
 # Adjust xdebug configuration
-sudo bash -c "cat > $(find ${php_config_dir} -name xdebug.ini)" <<EOXDEBUG
-zend_extension=$(find ${php_lib_dir} -name xdebug.so)
+sudo bash -c "cat > $(find /etc/php/${args_php_version} -name xdebug.ini)" <<EOXDEBUG
+zend_extension=$(find /usr/lib/php/${php_lib_dir} -name xdebug.so)
 xdebug.remote_enable = 1
 xdebug.remote_connect_back = 1
 xdebug.remote_port = 9000
@@ -78,12 +73,12 @@ xdebug.var_display_max_data = 1024
 EOXDEBUG
 
 # Display errors globally
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" ${php_config_dir}/fpm/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" ${php_config_dir}/fpm/php.ini
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/${args_php_version}/fpm/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/${args_php_version}/fpm/php.ini
 
 # Set timezone for FPM and CLI
-sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" ${php_config_dir}/fpm/php.ini
-sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" ${php_config_dir}/cli/php.ini
+sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/fpm/php.ini
+sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/cli/php.ini
 
 # Restart FPM
-sudo service php5-fpm restart | prefix "Service"
+sudo service php${args_php_version}-fpm restart | prefix "Service"

@@ -1,1 +1,3 @@
 .vagrant
+!public/.gitkeep
+public/*

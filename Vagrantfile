@@ -14,7 +14,7 @@ server = {
   :hostname       => "webserver.dev",
   :ip             => "192.168.50.10",
   :cpus           => "1",
-  :memory         => "512",
+  :memory         => "1024",
   :swap           => false,
   :timezone       => "Europe/Berlin"
 }

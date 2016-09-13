@@ -32,14 +32,18 @@ sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
 sudo a2dissite 000-default.conf | prefix "config"
 sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
 
+# Symlink NFS share as document root
+sudo rm -rf /var/www/html
+sudo ln -sf /vagrant/public /var/www/html
+
 # Write new default virtual host
 sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName ${args_hostname}
 
-    DocumentRoot /vagrant/public
+    DocumentRoot /var/www/html
 
-    <Directory /vagrant/public>
+    <Directory /var/www/html>
         Options -Indexes +FollowSymLinks +MultiViews
         AllowOverride All
         Require all granted

@@ -81,4 +81,4 @@ sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc
 sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/cli/php.ini
 
 # Restart FPM
-sudo service php${args_php_version}-fpm restart | prefix "Service"
+sudo service php${args_php_version}-fpm restart | prefix "service"

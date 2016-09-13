@@ -62,7 +62,7 @@ sudo sed -i "s/listen\.group.*/listen.group = vagrant/" ${php_config_dir}/fpm/po
 sudo sed -i "s/listen\.mode.*/listen.mode = 0666/" ${php_config_dir}/fpm/pool.d/www.conf
 
 # Adjust xdebug configuration
-cat > $(find ${php_config_dir} -name xdebug.ini) <<EOXDEBUG
+sudo bash -c "cat > $(find ${php_config_dir} -name xdebug.ini)" <<EOXDEBUG
 zend_extension=$(find ${php_lib_dir} -name xdebug.so)
 xdebug.remote_enable = 1
 xdebug.remote_connect_back = 1

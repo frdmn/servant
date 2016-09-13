@@ -21,7 +21,7 @@ server = {
 
 mysql = {
   :root_password  => "root",
-  :remote         => false,
+  :version        => 5.6
 }
 
 php = {

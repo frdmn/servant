@@ -25,10 +25,9 @@ sudo usermod -a -G www-data vagrant | prefix "config"
 # Enable modules
 sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
 
-# Disable default virtual hosts
-sudo a2dissite 000-default.conf | prefix "config"
-sudo rm /etc/apache2/sites-available/000-default.conf | prefix "config"
-sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
+# Disable default virtual hosts if they exist
+[[ -f "/etc/apache2/sites-available/000-default.conf" ]] && sudo rm /etc/apache2/sites-available/000-default.conf | prefix "config" && sudo a2dissite 000-default.conf | prefix "config"
+[[ -f "/etc/apache2/sites-available/default-ssl.conf" ]] && sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
 
 # Symlink NFS share as document root
 sudo rm -rf /var/www/html

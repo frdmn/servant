@@ -9,9 +9,6 @@ function prefix {
     fi
 }
 
-# Store arguments in variables
-args_hostname="${1}"
-
 # Add apt PPA for latest stable Apache
 # (Required to remove conflicts with PHP PPA due to partial Apache upgrade within it)
 sudo add-apt-repository -y ppa:ondrej/apache2 2>&1 | prefix "PPA"
@@ -38,20 +35,20 @@ sudo rm -rf /var/www/html
 sudo ln -sf /vagrant/public /var/www/html
 
 # Write new default virtual host
-sudo bash -c "cat > /etc/apache2/sites-available/web1.conf" <<EOAPACHE
+sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPACHE
 <VirtualHost *:80>
-    ServerName ${args_hostname}
+    ServerName webserver.dev
 
     DocumentRoot /var/www/html
 
     <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks +MultiViews
+        Options +FollowSymLinks +MultiViews
         AllowOverride All
         Require all granted
     </Directory>
 
-    CustomLog \${APACHE_LOG_DIR}/${args_hostname}_access.log combined
-    ErrorLog \${APACHE_LOG_DIR}/${args_hostname}_error.log
+    CustomLog \${APACHE_LOG_DIR}/webserver.dev_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/webserver.dev_error.log
 </VirtualHost>
 EOAPACHE
 
@@ -63,8 +60,8 @@ sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
 EOAPACHE
 
 # Enable configs and restart server
-sudo a2enconf phpmyadmin.conf php.conf | prefix "config"
 sudo a2ensite web1.conf | prefix "config"
+sudo a2enconf php.conf | prefix "config"
 
 # Restart Apache
 sudo service apache2 restart | prefix "config"

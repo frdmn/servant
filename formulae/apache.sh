@@ -76,6 +76,12 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
 </VirtualHost>
 EOAPACHE
 
+sudo mkdir /var/www/phpinfo
+sudo bash -c "cat > /var/www/phpinfo/index.php" <<EOPHPINFO
+<?php
+    phpinfo();
+EOPHPINFO
+
 # Enable configs and restart web server
 sudo a2enconf php.conf | prefix "config"
 sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"

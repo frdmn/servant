@@ -28,8 +28,26 @@ Alias /phpmyadmin/ "/var/www/phpmyadmin/"
 </Directory>
 EOAPACHE
 
+# Write new default virtual host
+sudo bash -c "cat > /etc/apache2/sites-available/00-phpmyadmin.dev.conf" <<EOAPACHE
+<VirtualHost *:80>
+    ServerName phpmyadmin.dev
+
+    DocumentRoot /var/www/phpmyadmin
+
+    <Directory "/var/www/phpmyadmin/">
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+
+    CustomLog \${APACHE_LOG_DIR}/phpmyadmin.dev_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/phpmyadmin.dev_error.log
+</VirtualHost>
+EOAPACHE
+
 # Enable config and restart server
-sudo a2enconf phpmyadmin.conf | prefix "config"
+sudo a2ensite 00-phpmyadmin.dev | prefix "config"
 sudo service apache2 restart | prefix "service"
 
 # Create phpmyadmin storage database

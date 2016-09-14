@@ -60,8 +60,8 @@ sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
 EOAPACHE
 
 # Enable configs and restart server
-sudo a2ensite web1.conf | prefix "config"
 sudo a2enconf php.conf | prefix "config"
+sudo a2ensite 00-webserver.dev.conf | prefix "config"
 
 # Restart Apache
 sudo service apache2 restart | prefix "config"

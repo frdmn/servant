@@ -18,16 +18,6 @@ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O
 sudo unzip /tmp/source.zip -d /var/www/ 2>&1 | prefix "Source"
 sudo mv /var/www/phpMyAdmin-*-all-languages /var/www/phpmyadmin
 
-# Create new Apache configuration file
-sudo bash -c "cat > /etc/apache2/conf-available/phpmyadmin.conf" <<EOAPACHE
-Alias /phpmyadmin/ "/var/www/phpmyadmin/"
-<Directory "/var/www/phpmyadmin/">
-    Order allow,deny
-    Allow from all
-    Require all granted
-</Directory>
-EOAPACHE
-
 # Write new default virtual host
 sudo bash -c "cat > /etc/apache2/sites-available/00-phpmyadmin.dev.conf" <<EOAPACHE
 <VirtualHost *:80>

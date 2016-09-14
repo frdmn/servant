@@ -1,3 +1,4 @@
 .vagrant
-!public/.gitkeep
 public/*
+!public/demokunde.de
+!public/phpinfo.dev

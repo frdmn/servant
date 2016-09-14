@@ -82,3 +82,14 @@ sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc
 
 # Restart FPM
 sudo service php${args_php_version}-fpm restart | prefix "service"
+
+# Create new Apache configuration file for PHP
+sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
+<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+    SetHandler "proxy:fcgi://127.0.0.1:9000"
+</FilesMatch>
+EOAPACHE
+
+# Enable configs and restart web server
+sudo a2enconf php.conf | prefix "config"
+sudo service apache2 restart | prefix "config"

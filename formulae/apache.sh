@@ -52,16 +52,10 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPAC
 </VirtualHost>
 EOAPACHE
 
-# Create new Apache configuration file for PHP
-sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
-<FilesMatch ".+\.ph(p[345]?|t|tml)$">
-    SetHandler "proxy:fcgi://127.0.0.1:9000"
-</FilesMatch>
+# Enable config
+sudo a2ensite 00-webserver.dev.conf | prefix "config"
 EOAPACHE
 
-# Enable configs and restart server
-sudo a2enconf php.conf | prefix "config"
-sudo a2ensite 00-webserver.dev.conf | prefix "config"
 
 # Restart Apache
 sudo service apache2 restart | prefix "config"

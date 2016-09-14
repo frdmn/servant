@@ -14,8 +14,8 @@ args_root_password="${1}"
 random_hash="$(date | md5sum | cut -f 1 -d " ")"
 
 # Download and extract latest version
-wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip | prefix "Source"
-sudo unzip /tmp/source.zip -d /var/www/ 2>&1 | prefix "Source"
+wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip 2>&1 | prefix "source"
+sudo unzip /tmp/source.zip -d /var/www/ 2>&1 | prefix "source"
 sudo mv /var/www/phpMyAdmin-*-all-languages /var/www/phpmyadmin
 
 # Write new default virtual host

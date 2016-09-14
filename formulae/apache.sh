@@ -52,10 +52,56 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPAC
 </VirtualHost>
 EOAPACHE
 
-# Enable config
-sudo a2ensite 00-webserver.dev.conf | prefix "config"
+# Create new Apache configuration file for PHP
+sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
+<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+    SetHandler "proxy:fcgi://127.0.0.1:9000"
+</FilesMatch>
 EOAPACHE
 
+sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
+<VirtualHost *:80>
+    ServerName phpinfo.dev
+
+    DocumentRoot /var/www/phpinfo
+
+    <Directory /var/www/phpinfo>
+        Options +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    CustomLog \${APACHE_LOG_DIR}/phpinfo.dev_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/phpinfo.dev_error.log
+</VirtualHost>
+EOAPACHE
+
+# Enable configs and restart web server
+sudo a2enconf php.conf | prefix "config"
+sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
+
+# For each custom virtual host
+for directory in /var/www/html/*; do
+    virtual_hostname=$(basename ${directory})
+    sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
+<VirtualHost *:80>
+    ServerName ${virtual_hostname}
+
+    DocumentRoot /var/www/html/${virtual_hostname}
+
+    <Directory /var/www/html/${virtual_hostname}>
+        Options +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    CustomLog \${APACHE_LOG_DIR}/${virtual_hostname}_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/${virtual_hostname}_error.log
+</VirtualHost>
+EOAPACHE
+
+    sudo a2ensite ${virtual_hostname}.conf | prefix "vhost][${virtual_hostname}"
+done
 
 # Restart Apache
-sudo service apache2 restart | prefix "config"
+sudo service apache2 restart | prefix "service"

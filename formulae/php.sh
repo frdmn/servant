@@ -82,32 +82,3 @@ sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc
 
 # Restart FPM
 sudo service php${args_php_version}-fpm restart | prefix "service"
-
-# Create new Apache configuration file for PHP
-sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
-<FilesMatch ".+\.ph(p[345]?|t|tml)$">
-    SetHandler "proxy:fcgi://127.0.0.1:9000"
-</FilesMatch>
-EOAPACHE
-
-sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
-<VirtualHost *:80>
-    ServerName phpinfo.dev
-
-    DocumentRoot /var/www/phpinfo
-
-    <Directory /var/www/phpinfo>
-        Options +FollowSymLinks +MultiViews
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    CustomLog \${APACHE_LOG_DIR}/phpinfo.dev_access.log combined
-    ErrorLog \${APACHE_LOG_DIR}/phpinfo.dev_error.log
-</VirtualHost>
-EOAPACHE
-
-# Enable configs and restart web server
-sudo a2enconf php.conf | prefix "config"
-sudo a2ensite 00-phpinfo.dev.conf | prefix "config"
-sudo service apache2 restart | prefix "config"

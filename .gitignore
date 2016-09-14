@@ -1,4 +1,3 @@
 .vagrant
 public/*
 !public/demokunde.de
-!public/phpinfo.dev

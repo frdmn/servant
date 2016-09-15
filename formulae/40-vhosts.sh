@@ -32,7 +32,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
     # For each custom virtual host
     for directory in /var/www/html/*; do
         # Store hostname in variable and substitute dots with dashes for MySQL
-        virtual_hostname=$(basename ${directory})
+        virtual_hostname=$(basename "${directory}")
         virtual_db_hostname=${virtual_hostname/./_}
 
         # write configuration file
@@ -79,10 +79,10 @@ if [[ ! -z $(find /opt/servant/projects/ -maxdepth 1 -type f) ]]; then
     # Check if there are stale projects
     for lockfile in /opt/servant/projects/*; do
          # Store hostname in variable and substitute dots with dashes for MySQL
-        virtual_hostname=$(basename ${lockfile})
+        virtual_hostname=$(basename "${lockfile}")
         virtual_db_hostname=${virtual_hostname/./_}
 
-        if [[ ! -d /var/www/html/${virtual_hostname} ]]; then
+        if [[ ! -d "/var/www/html/${virtual_hostname}" ]]; then
             # Disable and remove virtual host
             sudo a2dissite ${virtual_hostname}.conf | prefix "-][${virtual_hostname}][Apache"
             rm /etc/apache2/sites-available/${virtual_hostname}.conf

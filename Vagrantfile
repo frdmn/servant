@@ -43,7 +43,6 @@ total_hosts = [static_hosts, custom_hosts]
 Vagrant.configure('2') do |config|
   # Base settings
   config.vm.box = "ubuntu/trusty64"
-  config.ssh.forward_agent = true
   config.vm.hostname = "servant"
   config.vm.define "servant" do |iwelthost| end
 

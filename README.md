@@ -45,18 +45,13 @@ The following steps explain how to add new virtual hosts or web projects in the 
     ```shell
     cd ~/servant/public
     mkdir demoproject.io
+    echo "<?php echo 'test';" > demoproject.io/index.php
     ```
 
-2. Run Vagrant provisioner, so **servant** can setup your Apache configurations and create your database:
+2. Run the Vagrant command, so **servant** can setup your Apache configurations and create your database as well as adjust your `/etc/hosts` file on your Mac:
 
     ```shell
     vagrant provision
-    ```
-
-3. Last but not least make sure to point the DNS requests in your local `/etc/hosts` file to the IP (`192.168.50.10`, by default) of the servant machine:
-
-    ```shell
-    sudo echo "192.168.50.10 demoproject.io" >> /etc/hosts
     ```
 
 ## Contributing

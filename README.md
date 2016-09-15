@@ -20,7 +20,7 @@
 3. Copy the sample configuration file into your `$HOME`:
 
     ```shell
-    cp servant/config.json ~/
+    cp servant/config.json ~/.servant.json
     ```
 
 Follow the Usage instructions how to correctly setup new projects.

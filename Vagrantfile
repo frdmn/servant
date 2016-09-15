@@ -24,7 +24,7 @@ if File.exist?(File.expand_path configuration_filename)
   configuration = JSON.parse(File.read(File.expand_path configuration_filename))
 else
   # Return usage information and exit
-  sample = File.join(File.dirname(__FILE__), 'config-example.json')
+  sample = File.join(File.dirname(__FILE__), 'config.json')
   puts "Error: No config file found (#{configurationname}). To apply the default configuration:\n\n"
   puts "  cp #{sample} ~/.servant.json"
   exit 1

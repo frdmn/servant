@@ -22,6 +22,11 @@ deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted uni
 deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse
 EOAPT
 
+    # Add apt PPA for PHP versions
+    # redirect stderr to stdout because both commands use stderr as stdout.
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C 2>&1 | prefix "PPA"
+    sudo add-apt-repository -y ppa:ondrej/php 2>&1 | prefix "PPA"
+
     # Updating system
     sudo apt-get update | prefix "update"
 

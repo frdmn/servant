@@ -13,13 +13,6 @@ function prefix {
 args_timezone="${1}"
 args_php_version="${2}"
 
-# Add apt PPA for PHP versions
-# redirect stderr to stdout because both commands use stderr as stdout.
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C 2>&1 | prefix "PPA"
-sudo add-apt-repository -y ppa:ondrej/php 2>&1 | prefix "PPA"
-
-# Update repositories
-sudo apt-get update | prefix "APT update"
 
 # Store library directory name based on desired PHP version
 if [[ ${args_php_version} == "5.6" ]]; then

@@ -5,7 +5,7 @@
 
 [![asciicast](https://asciinema.org/a/85841.png)](https://asciinema.org/a/85841)
 
-**Servant** ( *sɜːrvənt* ) is a custom Vagrant virtual machine which offers a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but still isolated from your host system. Primary goal is to provide a consistent dev environment for devs/employees in a small company or startup.
+**Servant** ( *sɜːrvənt* ) is a custom Vagrant virtual machine which offers a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but still isolated from your host system. Primary goal is to provide a consistent dev environment for developers or employees in a small company/startup.
     
 ## Installation
 
@@ -90,7 +90,7 @@ The following steps explain how to add new virtual hosts or web projects in the 
 
 ## Version
 
-0.0.1
+0.1.0
 
 ## License
 

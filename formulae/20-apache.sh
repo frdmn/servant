@@ -90,14 +90,16 @@ EOPHPINFO
 
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/apache.lockfile
+
+    # Restart Apache
+    sudo service apache2 restart | prefix "service"
 fi
 
 ###
 # Recurring bootstrap
 ###
 
-# Restart Apache
-sudo service apache2 restart | prefix "service"
+# (none)
 
 # Exit without errors
 exit 0

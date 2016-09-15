@@ -79,14 +79,16 @@ EOXDEBUG
 
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/php.lockfile
+
+    # Restart FPM
+    sudo service php${args_php_version}-fpm restart | prefix "service"
 fi
 
 ###
 # Recurring bootstrap
 ###
 
-# Restart FPM
-sudo service php${args_php_version}-fpm restart | prefix "service"
+# (none)
 
 # Exit without errors
 exit 0

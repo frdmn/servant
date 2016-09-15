@@ -12,9 +12,11 @@
 1. Make sure you've installed all requirements:
 
     ```shell
-    vagrant plugin install bindfs
-    vagrant plugin install hostmanager
+    vagrant plugin install vagrant-bindfs
+    vagrant plugin install vendor/vagrant-hostsupdater-1.0.2.gem
     ```
+
+*Caution*: The second command installs a [`vagrant-hostsupdater`](https://github.com/frdmn/vagrant-hostsupdater) fork, which is bundled as gem file within the repository and required to properly write and update the `/etc/hosts` file.
 
 2. Clone this repository:
 
@@ -88,7 +90,7 @@ The following steps explain how to add new virtual hosts or web projects in the 
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](https://www.vagrantup.com/)
     - [`vagrant-bindfs`](https://github.com/gael-ian/vagrant-bindfs) plugin
-    - [`vagrant-hostmanager`](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin
+    - [`vagrant-hostsupdater`](https://github.com/frdmn/vagrant-hostsupdater) plugin (custom fork)
 
 ## Credits
 

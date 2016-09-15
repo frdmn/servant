@@ -1,6 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+#                                 _
+#  ___  ___ _ ____   ____ _ _ __ | |_
+# / __|/ _ \ '__\ \ / / _` | '_ \| __|
+# \__ \  __/ |   \ V / (_| | | | | |_
+# |___/\___|_|    \_/ \__,_|_| |_|\__|
+#
+# Servant, a Vagrant based web development system
+# © 2016 by Jonas Friedmann licenced under MIT
+#
+
 ###
 # Variables and configuration
 ###

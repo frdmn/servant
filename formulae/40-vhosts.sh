@@ -12,6 +12,21 @@ function prefix {
 # Store arguments and variables
 args_root_password="${1}"
 
+###
+# Initial bootstrap
+###
+
+if [[ ! -f /opt/servant_lockfile-vhosts ]]; then
+    # none
+
+    # Create lockfile to indicate successful inital provisions
+    touch /opt/servant_lockfile-vhosts
+fi
+
+###
+# Recurring bootstrap
+###
+
 # Abort if no projects found
 [[ ! $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]] && exit 0
 
@@ -54,3 +69,6 @@ done
 
 # Restart Apache
 sudo service apache2 restart | prefix "service"
+
+# Exit without errors
+exit 0

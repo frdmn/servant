@@ -13,14 +13,19 @@ function prefix {
 args_root_password="${1}"
 random_hash="$(date | md5sum | cut -f 1 -d " ")"
 
-# Download and extract latest version
-wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip 2>&1 | prefix "source"
-sudo unzip -o /tmp/source.zip -d /var/www/ 2>&1 | prefix "source"
-[[ -d "/var/www/phpmyadmin" ]] && sudo rm -r /var/www/phpmyadmin
-sudo mv /var/www/phpMyAdmin-*-all-languages /var/www/phpmyadmin
+###
+# Initial bootstrap
+###
 
-# Write new default virtual host
-sudo bash -c "cat > /etc/apache2/sites-available/00-phpmyadmin.dev.conf" <<EOAPACHE
+if [[ ! -f /opt/servant_lockfile-phpmyadmin ]]; then
+    # Download and extract latest version
+    wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip 2>&1 | prefix "source"
+    sudo unzip -o /tmp/source.zip -d /var/www/ 2>&1 | prefix "source"
+    [[ -d "/var/www/phpmyadmin" ]] && sudo rm -r /var/www/phpmyadmin
+    sudo mv /var/www/phpMyAdmin-*-all-languages /var/www/phpmyadmin
+
+    # Write new default virtual host
+    sudo bash -c "cat > /etc/apache2/sites-available/00-phpmyadmin.dev.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName phpmyadmin.dev
 
@@ -37,16 +42,16 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-phpmyadmin.dev.conf" <<EOAPA
 </VirtualHost>
 EOAPACHE
 
-# Enable config and restart server
-sudo a2ensite 00-phpmyadmin.dev | prefix "config"
-sudo service apache2 restart | prefix "service"
+    # Enable config and restart server
+    sudo a2ensite 00-phpmyadmin.dev | prefix "config"
+    sudo service apache2 restart | prefix "service"
 
-# Create phpmyadmin storage database
-cat /var/www/phpmyadmin/sql/create_tables.sql | mysql -u root -p${args_root_password} 2>&1 | prefix "storage"
-echo "GRANT SELECT, INSERT, DELETE, UPDATE ON phpmyadmin.* TO 'phpmyadmin'@'localhost' IDENTIFIED BY \"phpmyadmin\"" | mysql -u root -p${args_root_password} 2>&1 | prefix "storage"
+    # Create phpmyadmin storage database
+    cat /var/www/phpmyadmin/sql/create_tables.sql | mysql -u root -p${args_root_password} 2>&1 | prefix "storage"
+    echo "GRANT SELECT, INSERT, DELETE, UPDATE ON phpmyadmin.* TO 'phpmyadmin'@'localhost' IDENTIFIED BY \"phpmyadmin\"" | mysql -u root -p${args_root_password} 2>&1 | prefix "storage"
 
-# Adjust default configuration
-cat > /var/www/phpmyadmin/config.inc.php <<EOCONFIG
+    # Adjust default configuration
+    cat > /var/www/phpmyadmin/config.inc.php <<EOCONFIG
 <?php
     \$cfg['blowfish_secret'] = '${random_hash}';
 
@@ -64,3 +69,17 @@ cat > /var/www/phpmyadmin/config.inc.php <<EOCONFIG
     \$cfg['UploadDir'] = '';
     \$cfg['SaveDir'] = '';
 EOCONFIG
+
+    # Create lockfile to indicate successful inital provisions
+    touch /opt/servant_lockfile-phpmyadmin
+fi
+
+###
+# Recurring bootstrap
+###
+
+# (none)
+
+# Exit without errors
+exit 0
+

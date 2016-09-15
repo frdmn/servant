@@ -71,6 +71,7 @@ Vagrant.configure('2') do |config|
   # Formulae
   ###
 
+  config.vm.provision "shell", name: "apt", path: "#{configuration["general"]["source_uri"]}/formulae/00-apt.sh", args: ["#{configuration["mysql"]["version"]}"]
   config.vm.provision "shell", name: "base", path: "#{configuration["general"]["source_uri"]}/formulae/00-base.sh", args: ["#{configuration["server"]["timezone"]}", "#{configuration["server"]["swap"]}"]
   config.vm.provision "shell", name: "php", path: "#{configuration["general"]["source_uri"]}/formulae/10-php.sh", args: ["#{configuration["server"]["timezone"]}", "#{configuration["php"]["version"]}"]
   config.vm.provision "shell", name: "apache", path: "#{configuration["general"]["source_uri"]}/formulae/20-apache.sh"

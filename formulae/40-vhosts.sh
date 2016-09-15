@@ -69,3 +69,6 @@ done
 
 # Restart Apache
 sudo service apache2 restart | prefix "service"
+
+# Exit without errors
+exit 0

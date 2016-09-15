@@ -27,6 +27,7 @@ else
   sample = File.join(File.dirname(__FILE__), 'config.json')
   puts "Error: No config file found (#{configuration_filename}). To apply the default configuration:\n\n"
   puts "  cp #{sample} ~/.servant.json"
+  # Exit with error code
   exit 1
 end
 
@@ -40,6 +41,7 @@ total_hosts = [static_hosts, custom_hosts]
 ###
 
 Vagrant.configure('2') do |config|
+  # Base settings
   config.vm.box = "ubuntu/trusty64"
   config.ssh.forward_agent = true
   config.vm.hostname = "servant"
@@ -50,15 +52,18 @@ Vagrant.configure('2') do |config|
   config.hostmanager.manage_guest = true
   config.hostmanager.aliases = total_hosts
 
+  # Network interfaces
   config.vm.network :private_network, ip: configuration["server"]["ip"]
   config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]
 
+  # Set VM specs
   config.vm.provider :virtualbox do |vbox|
     vbox.customize ["modifyvm", :id, "--cpus", configuration["server"]["cpus"]]
     vbox.customize ["modifyvm", :id, "--memory", configuration["server"]["memory"]]
     vbox.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 
+  # Shared folder for Apache DocumentRoot
   config.vm.synced_folder ".", "/var/nfs", type: "nfs"
   config.bindfs.bind_folder "/var/nfs", "/vagrant"
 

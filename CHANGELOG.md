@@ -1,5 +1,10 @@
 # servant changelog
 
+## 0.1.3
+
+- Remove stale projects [#6](https://github.com/frdmn/servant/issues/6)
+- Fix incorrect swap command construction
+
 ## 0.1.2
 
 - Turn integer and boolean values into strings in config.json

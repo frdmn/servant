@@ -5,7 +5,8 @@
 # Variables and configuration
 ###
 
-configuration_filename = "~/.idev.json"
+# Set path for conf file
+configuration_filename = "~/.servant.json"
 
 # Check if configration file exists
 if File.exist?(File.expand_path configuration_filename)
@@ -15,7 +16,7 @@ else
   # Return usage information and exit
   sample = File.join(File.dirname(__FILE__), 'config-example.json')
   puts "Error: No config file found (#{configurationname}). To apply the default configuration:\n\n"
-  puts "  cp #{sample} ~/.idev.json"
+  puts "  cp #{sample} ~/.servant.json"
   exit 1
 end
 

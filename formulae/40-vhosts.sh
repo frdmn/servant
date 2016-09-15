@@ -27,17 +27,16 @@ fi
 # Recurring bootstrap
 ###
 
-# Abort if no projects found
-[[ ! $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]] && exit 0
+# If there are any projects in public/
+if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]]; then
+    # For each custom virtual host
+    for directory in /var/www/html/*; do
+        # Store hostname in variable and substitute dots with dashes for MySQL
+        virtual_hostname=$(basename ${directory})
+        virtual_db_hostname=${virtual_hostname/./_}
 
-# For each custom virtual host
-for directory in /var/www/html/*; do
-    # Store hostname in variable and substitute dots with dashes for MySQL
-    virtual_hostname=$(basename ${directory})
-    virtual_db_hostname=${virtual_hostname/./_}
-
-    # write configuration file
-    sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
+        # write configuration file
+        sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName ${virtual_hostname}
 
@@ -54,21 +53,62 @@ for directory in /var/www/html/*; do
 </VirtualHost>
 EOAPACHE
 
-    # Enable config
-    sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"
+        # Enable config
+        sudo a2ensite ${virtual_hostname}.conf | prefix "+][${virtual_hostname}][Apache"
 
-    # Create MySQL database and user
+        # Create MySQL database and user
+        MYSQL_PWD=${args_root_password} mysql -u root -e """
+        CREATE DATABASE IF NOT EXISTS ${virtual_db_hostname} DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+        GRANT ALL ON ${virtual_db_hostname}.* TO '${virtual_db_hostname}'@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
+        """
 
-    MYSQL_PWD=${args_root_password} mysql -u root -e """
-    CREATE DATABASE IF NOT EXISTS ${virtual_db_hostname} DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-    GRANT ALL ON ${virtual_db_hostname}.* TO '${virtual_db_hostname}'@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
-    """
+        # Make sure to restart Apache at the end of the script
+        touch /opt/servant/apache.restart
 
-    echo "Created user and database \"${virtual_db_hostname}\"" | prefix "${virtual_hostname}][MySQL"
-done
+        # Create lockfile
+        touch /opt/servant/projects/${virtual_hostname}
 
-# Restart Apache
-sudo service apache2 restart | prefix "service"
+        echo "Created user and database \"${virtual_db_hostname}\"" | prefix "+][${virtual_hostname}][MySQL"
+    done
+else
+    echo "No projects found in \"public/\" folder." | prefix
+fi
+
+# Check if lockfile folder is not empty
+if [[ ! -z $(find /opt/servant/projects/ -maxdepth 1 -type f) ]]; then
+    # Check if there are stale projects
+    for lockfile in /opt/servant/projects/*; do
+         # Store hostname in variable and substitute dots with dashes for MySQL
+        virtual_hostname=$(basename ${lockfile})
+        virtual_db_hostname=${virtual_hostname/./_}
+
+        if [[ ! -d /var/www/html/${virtual_hostname} ]]; then
+            # Disable and remove virtual host
+            sudo a2dissite ${virtual_hostname}.conf | prefix "-][${virtual_hostname}][Apache"
+            rm /etc/apache2/sites-available/${virtual_hostname}.conf
+
+            # Drop database and SQL user
+            MYSQL_PWD=${args_root_password} mysql -u root -e """
+            DROP DATABASE ${virtual_db_hostname};
+            DROP USER '${virtual_db_hostname}'@'localhost';
+            """
+
+            # Make sure to restart Apache at the end of the script
+            touch /opt/servant/apache.restart
+
+            # Remove lockfile
+            rm ${lockfile}
+
+            echo "Removed user and database \"${virtual_db_hostname}\"" | prefix "-][${virtual_hostname}][MySQL"
+        fi
+    done
+fi
+
+# Restart Apache if necessary
+if [[ -f /opt/servant/apache.restart ]]; then
+    sudo service apache2 restart | prefix "service"
+    rm /opt/servant/apache.restart
+fi
 
 # Exit without errors
 exit 0

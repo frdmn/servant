@@ -13,7 +13,7 @@ function prefix {
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-apache ]]; then
+if [[ ! -f /opt/servant/formulae/apache.lockfile ]]; then
     # Install Apache2
     sudo apt-get install -y apache2 2>&1 | prefix "APT install"
 
@@ -89,7 +89,7 @@ EOPHPINFO
     sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-apache
+    touch /opt/servant/formulae/apache.lockfile
 fi
 
 ###

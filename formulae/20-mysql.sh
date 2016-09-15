@@ -18,7 +18,7 @@ apt_package="mysql-server"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-mysql ]]; then
+if [[ ! -f /opt/servant/formulae/mysql.lockfile ]]; then
     # If MySQL server version 5.6 is requested
     if [[ "${args_mysql_version}" == "5.6" ]]; then
         # Append version to package variable
@@ -34,7 +34,7 @@ if [[ ! -f /opt/servant_lockfile-mysql ]]; then
     sudo apt-get install -y ${apt_package} 2>&1 | prefix "APT install"
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-mysql
+    touch /opt/servant/formulae/mysql.lockfile
 fi
 
 ###

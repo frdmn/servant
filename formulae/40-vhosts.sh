@@ -16,11 +16,11 @@ args_root_password="${1}"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-vhosts ]]; then
+if [[ ! -f /opt/servant/formulae/vhosts.lockfile ]]; then
     # none
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-vhosts
+    touch /opt/servant/formulae/vhosts.lockfile
 fi
 
 ###

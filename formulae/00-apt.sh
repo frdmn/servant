@@ -16,7 +16,10 @@ args_version="${1}"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-apt ]]; then
+if [[ ! -f /opt/servant/formulae/apt.lockfile ]]; then
+    # Create folders to store lockfiles
+    mkdir -p /opt/servant/{formulae,projects}
+
     # Use apt mirror based on geographical location
     cat > /etc/apt/sources.list.d/apt-geo-mirror.list <<EOAPT
 deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse
@@ -41,7 +44,7 @@ EOAPT
     sudo apt-get update | prefix "update"
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-apt
+    touch /opt/servant/formulae/apt.lockfile
 fi
 
 ###

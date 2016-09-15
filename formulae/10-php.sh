@@ -17,7 +17,7 @@ args_php_version="${2}"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-php ]]; then
+if [[ ! -f /opt/servant/formulae/php.lockfile ]]; then
     # Store library directory name based on desired PHP version
     if [[ ${args_php_version} == "5.6" ]]; then
         php_lib_dir="20131226"
@@ -78,7 +78,7 @@ EOXDEBUG
     sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/cli/php.ini
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-php
+    touch /opt/servant/formulae/php.lockfile
 fi
 
 ###

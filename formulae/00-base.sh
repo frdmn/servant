@@ -17,7 +17,7 @@ args_swap="${2}"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-base ]]; then
+if [[ ! -f /opt/servant/formulae/base.lockfile ]]; then
     # Installing Base Packages
     sudo apt-get install -y \
         build-essential \
@@ -46,7 +46,7 @@ if [[ ! -f /opt/servant_lockfile-base ]]; then
     fi
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-base
+    touch /opt/servant/formulae/base.lockfile
 fi
 
 ###

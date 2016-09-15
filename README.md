@@ -20,7 +20,7 @@ Servant ( *sɜːrvənt* ) is a custom Vagrant virtual machine that aims to provi
 3. Copy the sample configuration file into your `$HOME`:
 
     ```shell
-    cp config.json ~/
+    cp servant/config.json ~/
     ```
 
 Follow the Usage instructions how to correctly setup new projects.s

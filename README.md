@@ -87,3 +87,7 @@ The following steps explain how to add new virtual hosts or web projects in the 
 ## Version
 
 0.0.1
+
+## License
+
+[MIT](LICENSE)

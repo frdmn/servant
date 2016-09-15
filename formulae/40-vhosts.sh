@@ -36,7 +36,9 @@ for directory in /var/www/html/*; do
 </VirtualHost>
 EOAPACHE
 
-    sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}"
+    # Enable config
+    sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"
+
     # Create MySQL database and user
 
     MYSQL_PWD=${args_root_password} mysql -u root -e """

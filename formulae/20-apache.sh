@@ -14,6 +14,9 @@ function prefix {
 ###
 
 if [[ ! -f /opt/servant_lockfile-apache ]]; then
+    # Install Apache2
+    sudo apt-get install -y apache2 2>&1 | prefix "APT install"
+
     # Add vagrant user to www-data group
     sudo usermod -a -G www-data vagrant | prefix "config"
 

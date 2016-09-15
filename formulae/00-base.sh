@@ -36,7 +36,7 @@ if [[ ! -f /opt/servant/formulae/base.lockfile ]]; then
     # Check if arguments are set
     if [[ ! ${args_swap} =~ false && ${args_swap} =~ ^[0-9]*$ ]]; then
         # Setting up memory swap
-        sudo fallocate -l $2M /swapfile | prefix "Swap"
+        sudo fallocate -l ${args_swap}M /swapfile | prefix "Swap"
         sudo chmod 600 /swapfile | prefix "Swap"
         sudo mkswap /swapfile | prefix "Swap"
         sudo swapon /swapfile | prefix "Swap"

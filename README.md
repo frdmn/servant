@@ -9,7 +9,13 @@
 
 ## Installation
 
-1. Make sure you've installed all requirements
+1. Make sure you've installed all requirements:
+
+    ```shell
+    vagrant plugin install bindfs
+    vagrant plugin install hostmanager
+    ```
+
 2. Clone this repository:
 
     ```shell

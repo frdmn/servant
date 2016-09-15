@@ -18,16 +18,13 @@ args_swap="${2}"
 ###
 
 if [[ ! -f /opt/servant_lockfile-base ]]; then
-    # Use apt mirror based on geographical location
-    cat > /etc/apt/sources.list.d/apt-geo-mirror.list <<EOAPT
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse
-EOAPT
-
-    # Updating system
-    sudo apt-get update | prefix "APT update"
+    # Installing Base Packages
+    sudo apt-get install -y \
+        build-essential \
+        curl \
+        git \
+        unzip \
+        2>&1 | prefix "APT install"
 
     # Setting Timezone to to ${args_timezone} & Locale to en_US.UTF-8
     sudo echo "${args_timezone}" > /etc/timezone
@@ -56,10 +53,7 @@ fi
 # Recurring bootstrap
 ###
 
-# Installing Base Packages
-sudo apt-get install -y \
-    build-essential \
-    curl \
-    git \
-    unzip \
-    2>&1 | prefix "APT install"
+# (none)
+
+# Exit without errors
+exit 0

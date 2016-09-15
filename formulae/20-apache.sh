@@ -81,8 +81,11 @@ sudo bash -c "cat > /var/www/phpinfo/index.php" <<EOPHPINFO
     phpinfo();
 EOPHPINFO
 
+# Set default ServerName
+sudo echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf
+
 # Enable configs and restart web server
-sudo a2enconf php.conf | prefix "config"
+sudo a2enconf php.conf servername.conf | prefix "config"
 sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
 
 # Restart Apache

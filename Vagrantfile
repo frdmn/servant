@@ -25,7 +25,7 @@ if File.exist?(File.expand_path configuration_filename)
 else
   # Return usage information and exit
   sample = File.join(File.dirname(__FILE__), 'config.json')
-  puts "Error: No config file found (#{configurationname}). To apply the default configuration:\n\n"
+  puts "Error: No config file found (#{configuration_filename}). To apply the default configuration:\n\n"
   puts "  cp #{sample} ~/.servant.json"
   exit 1
 end

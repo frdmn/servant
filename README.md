@@ -87,6 +87,10 @@ The following steps explain how to add new virtual hosts or web projects in the 
 * VirtualBox
 * Vagrant
 
+## Credits
+
+- [fideloper](https://github.com/fideloper), for the idea to bootstrap Vagrant using Shell provisioners
+
 ## Version
 
 0.0.1

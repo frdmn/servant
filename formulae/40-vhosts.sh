@@ -16,11 +16,11 @@ args_root_password="${1}"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-php ]]; then
+if [[ ! -f /opt/servant_lockfile-vhosts ]]; then
     # none
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-php
+    touch /opt/servant_lockfile-vhosts
 fi
 
 ###

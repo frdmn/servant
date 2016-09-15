@@ -17,9 +17,7 @@ random_hash="$(date | md5sum | cut -f 1 -d " ")"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant_lockfile-php ]]; then
-
-
+if [[ ! -f /opt/servant_lockfile-phpmyadmin ]]; then
     # Download and extract latest version
     wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip 2>&1 | prefix "source"
     sudo unzip -o /tmp/source.zip -d /var/www/ 2>&1 | prefix "source"
@@ -73,7 +71,7 @@ EOAPACHE
 EOCONFIG
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant_lockfile-php
+    touch /opt/servant_lockfile-phpmyadmin
 fi
 
 ###

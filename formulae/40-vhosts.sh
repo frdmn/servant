@@ -12,6 +12,9 @@ function prefix {
 # Store arguments and variables
 args_root_password="${1}"
 
+# Abort if no projects found
+[[ ! $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]] && exit 0
+
 # For each custom virtual host
 for directory in /var/www/html/*; do
     # Store hostname in variable and substitute dots with dashes for MySQL

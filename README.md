@@ -16,7 +16,7 @@
     vagrant plugin install vendor/vagrant-hostsupdater-1.0.2.gem
     ```
 
-*Caution*: The second command installs a [`vagrant-hostsupdater`](https://github.com/frdmn/vagrant-hostsupdater) fork, which is bundled as gem file within the repository and required to properly write and update the `/etc/hosts` file.
+    *Caution*: The second command installs a [`vagrant-hostsupdater`](https://github.com/frdmn/vagrant-hostsupdater) fork, which is bundled as gem file within the repository and required to properly write and update the `/etc/hosts` file.
 
 2. Clone this repository:
 

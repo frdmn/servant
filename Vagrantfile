@@ -78,6 +78,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "phpmyadmin", path: "#{configuration["general"]["source_uri"]}/formulae/30-phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "apt", path: "#{configuration["general"]["source_uri"]}/formulae/00-apt.sh"
+  config.vm.provision "shell", name: "apt", path: "#{configuration["general"]["source_uri"]}/formulae/00-apt.sh", args: ["#{configuration["mysql"]["version"]}"]
 
   ###
   # /etc/hosts provisioner

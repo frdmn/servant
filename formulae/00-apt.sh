@@ -32,7 +32,7 @@ EOAPT
     sudo add-apt-repository -y ppa:ondrej/apache2 2>&1 | prefix "PPA"
 
     # If MySQL server version 5.6 is requested
-    if [ ${args_mysql_version} == "5.6" ]; then
+    if [[ "${args_mysql_version}" == "5.6" ]]; then
         # Add apt PPA for latest stable MySQL
         sudo add-apt-repository -y ppa:ondrej/mysql-5.6 2>&1 | prefix "PPA"
     fi

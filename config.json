@@ -1,23 +1,23 @@
 {
   "general": {
     "source_uri":     ".",
-    "host_port_http": 8000
+    "host_port_http": "8000"
   },
 
   "server": {
     "ip":             "192.168.50.10",
-    "cpus":           1,
-    "memory":         1024,
-    "swap":           false,
+    "cpus":           "1",
+    "memory":         "1024",
+    "swap":           "false",
     "timezone":       "Europe/Berlin"
   },
 
   "mysql": {
     "root_password":  "root",
-    "version":        5.6
+    "version":        "5.6"
   },
 
   "php": {
-    "version":        5.6
+    "version":        "5.6"
   }
 }

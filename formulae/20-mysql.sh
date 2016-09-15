@@ -20,7 +20,7 @@ apt_package="mysql-server"
 
 if [[ ! -f /opt/servant_lockfile-mysql ]]; then
     # If MySQL server version 5.6 is requested
-    if [ ${args_mysql_version} == "5.6" ]; then
+    if [[ "${args_mysql_version}" == "5.6" ]]; then
         # Append version to package variable
         apt_package+="-5.6"
     fi

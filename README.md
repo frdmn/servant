@@ -1,3 +1,6 @@
+| :construction: This project is a *work in progress* :construction: |
+|---|
+
 # servant
 
 [![asciicast](https://asciinema.org/a/85841.png)](https://asciinema.org/a/85841)

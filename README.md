@@ -84,8 +84,10 @@ The following steps explain how to add new virtual hosts or web projects in the 
 
 ## Requirements / Dependencies
 
-* VirtualBox
-* Vagrant
+* [VirtualBox](https://www.virtualbox.org/)
+* [Vagrant](https://www.vagrantup.com/)
+    - [`vagrant-bindfs`](https://github.com/gael-ian/vagrant-bindfs) plugin
+    - [`vagrant-hostmanager`](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin
 
 ## Credits
 

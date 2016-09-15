@@ -30,6 +30,11 @@ else
   exit 1
 end
 
+# Check for custom projects which we add to /etc/hosts
+static_hosts = %w(webserver.dev phpmyadmin.dev phpinfo.dev)
+custom_hosts = Dir.glob("public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
+total_hosts = [static_hosts, custom_hosts]
+
 ###
 # Vagrant bootstrap
 ###
@@ -39,6 +44,11 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
   config.vm.hostname = "servant"
   config.vm.define "servant" do |iwelthost| end
+
+  # Setup hostmanager plugin
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.aliases = total_hosts
 
   config.vm.network :private_network, ip: configuration["server"]["ip"]
   config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]
@@ -62,4 +72,10 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "mysql", path: "#{configuration["general"]["source_uri"]}/formulae/20-mysql.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["version"]}"]
   config.vm.provision "shell", name: "phpmyadmin", path: "#{configuration["general"]["source_uri"]}/formulae/30-phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+
+  ###
+  # /etc/hosts provisioner
+  ###
+
+  config.vm.provision :hostmanager
 end

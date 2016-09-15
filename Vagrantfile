@@ -37,8 +37,8 @@ end
 Vagrant.configure('2') do |config|
   config.vm.box = "ubuntu/trusty64"
   config.ssh.forward_agent = true
-  config.vm.hostname = configuration["server"]["hostname"]
-  config.vm.define configuration["server"]["hostname"] do |iwelthost| end
+  config.vm.hostname = "servant"
+  config.vm.define "servant" do |iwelthost| end
 
   config.vm.network :private_network, ip: configuration["server"]["ip"]
   config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]

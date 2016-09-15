@@ -9,32 +9,27 @@ function prefix {
     fi
 }
 
-# Add apt PPA for latest stable Apache
-# (Required to remove conflicts with PHP PPA due to partial Apache upgrade within it)
-sudo add-apt-repository -y ppa:ondrej/apache2 2>&1 | prefix "PPA"
+###
+# Initial bootstrap
+###
 
-# Update repositories
-sudo apt-get update | prefix "APT update"
+if [[ ! -f /opt/servant_lockfile-apache ]]; then
+    # Add vagrant user to www-data group
+    sudo usermod -a -G www-data vagrant | prefix "config"
 
-# Install Apache2
-sudo apt-get install -y apache2 2>&1 | prefix "APT install"
+    # Enable modules
+    sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
 
-# Add vagrant user to www-data group
-sudo usermod -a -G www-data vagrant | prefix "config"
+    # Disable default virtual hosts if they exist
+    [[ -f "/etc/apache2/sites-available/000-default.conf" ]] && sudo rm /etc/apache2/sites-available/000-default.conf | prefix "config" && sudo a2dissite 000-default.conf | prefix "config"
+    [[ -f "/etc/apache2/sites-available/default-ssl.conf" ]] && sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
 
-# Enable modules
-sudo a2enmod rewrite actions ssl proxy_fcgi | prefix "config"
+    # Symlink NFS share as document root
+    sudo rm -rf /var/www/html
+    sudo ln -sf /vagrant/public /var/www/html
 
-# Disable default virtual hosts if they exist
-[[ -f "/etc/apache2/sites-available/000-default.conf" ]] && sudo rm /etc/apache2/sites-available/000-default.conf | prefix "config" && sudo a2dissite 000-default.conf | prefix "config"
-[[ -f "/etc/apache2/sites-available/default-ssl.conf" ]] && sudo rm /etc/apache2/sites-available/default-ssl.conf | prefix "config"
-
-# Symlink NFS share as document root
-sudo rm -rf /var/www/html
-sudo ln -sf /vagrant/public /var/www/html
-
-# Write new default virtual host
-sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPACHE
+    # Write new default virtual host
+    sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName webserver.dev
 
@@ -51,14 +46,15 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPAC
 </VirtualHost>
 EOAPACHE
 
-# Create new Apache configuration file for PHP
-sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
+    # Create new Apache configuration file for PHP
+    sudo bash -c "cat > /etc/apache2/conf-available/php.conf" <<EOAPACHE
 <FilesMatch ".+\.ph(p[345]?|t|tml)$">
     SetHandler "proxy:fcgi://127.0.0.1:9000"
 </FilesMatch>
 EOAPACHE
 
-sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
+    # Setup phpinfo default virtual host
+    sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName phpinfo.dev
 
@@ -75,18 +71,30 @@ sudo bash -c "cat > /etc/apache2/sites-available/00-phpinfo.dev.conf" <<EOAPACHE
 </VirtualHost>
 EOAPACHE
 
-sudo mkdir -p /var/www/phpinfo
-sudo bash -c "cat > /var/www/phpinfo/index.php" <<EOPHPINFO
+    # And create docuemnt root
+    sudo mkdir -p /var/www/phpinfo
+    sudo bash -c "cat > /var/www/phpinfo/index.php" <<EOPHPINFO
 <?php
     phpinfo();
 EOPHPINFO
 
-# Set default ServerName
-sudo echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf
+    # Set default ServerName
+    sudo echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf
 
-# Enable configs and restart web server
-sudo a2enconf php.conf servername.conf | prefix "config"
-sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
+    # Enable configs and restart web server
+    sudo a2enconf php.conf servername.conf | prefix "config"
+    sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
+
+    # Create lockfile to indicate successful inital provisions
+    touch /opt/servant_lockfile-apache
+fi
+
+###
+# Recurring bootstrap
+###
 
 # Restart Apache
 sudo service apache2 restart | prefix "service"
+
+# Exit without errors
+exit 0

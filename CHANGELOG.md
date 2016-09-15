@@ -1,5 +1,10 @@
 # servant changelog
 
+## 0.1.2
+
+- Turn integer and boolean values into strings in config.json
+- Replace broken hostmanager with [custom fork](https://github.com/frdmn/servant/commit/61ff4ee32b32f28eddb7db8d1294f48697773ae3) 
+
 ## 0.1.1
 
 - Fix config path in installation instructions

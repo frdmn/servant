@@ -5,7 +5,7 @@
 
 [![asciicast](https://asciinema.org/a/85841.png)](https://asciinema.org/a/85841)
 
-Servant ( *sɜːrvənt* ) is a custom Vagrant virtual machine that aims to provide a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but isolated from your host system.
+**Servant** ( *sɜːrvənt* ) is a custom Vagrant virtual machine which offers a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but isolated from your host system. Primary goal is to provide a consistent dev environment for devs/employees in a small company or startup.
 
 ## Installation
 
@@ -23,11 +23,11 @@ Servant ( *sɜːrvənt* ) is a custom Vagrant virtual machine that aims to provi
     cp servant/config.json ~/
     ```
 
-Follow the Usage instructions how to correctly setup new projects.s
+Follow the Usage instructions how to correctly setup new projects.
     
 ## Usage
 
-#### Create and bootstrap virtual machine initally
+### Create and bootstrap virtual machine initally
 
 1. To initially create the **servant** machine, just run:
 
@@ -36,7 +36,7 @@ Follow the Usage instructions how to correctly setup new projects.s
     vagrant up
     ```
 
-#### Add a new virtual host / web project
+### Add a new virtual host / web project
 
 The following steps explain how to add new virtual hosts or web projects in the Apache configuration and setup MySQL databases:
 

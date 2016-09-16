@@ -33,7 +33,8 @@ if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
     for lockfile in /opt/servant/vhosts/*; do
          # Store hostname in variable and substitute dots with dashes for MySQL
         virtual_hostname=$(basename "${lockfile}")
-        virtual_db_hostname=${${virtual_hostname/./_}:0:16}
+        virtual_db_hostname=${virtual_hostname/./_}
+        virtual_db_hostname=${virtual_db_hostname:0:16}
 
         # Check if directroy still exists in public/ folder
         if [[ ! -d "/var/www/html/${virtual_hostname}" ]]; then
@@ -43,8 +44,8 @@ if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
 
             # Drop database and SQL user
             MYSQL_PWD=${args_root_password} mysql -u root -e """
-            DROP DATABASE ${virtual_db_hostname};
-            DROP USER '${virtual_db_hostname}'@'localhost';
+            DROP DATABASE \`${virtual_db_hostname}\`;
+            DROP USER \`${virtual_db_hostname}\`@'localhost';
             """
 
             # Make sure to restart Apache at the end of the script

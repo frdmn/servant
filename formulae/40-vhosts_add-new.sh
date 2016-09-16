@@ -51,7 +51,8 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
     for directory in /var/www/html/*; do
         # Store hostname in variable and substitute dots with dashes for MySQL
         virtual_hostname=$(basename "${directory}")
-        virtual_db_hostname=${${virtual_hostname/./_}:0:16}
+        virtual_db_hostname=${virtual_hostname/./_}
+        virtual_db_hostname=${virtual_db_hostname:0:16}
 
         # Check if vhost was already created, if not create
         if [[ ! -f "/opt/servant/vhosts/${virtual_hostname}" ]]; then
@@ -63,8 +64,8 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
 
             # Create MySQL database and user
             MYSQL_PWD=${args_root_password} mysql -u root -e """
-            CREATE DATABASE IF NOT EXISTS ${virtual_db_hostname} DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-            GRANT ALL ON ${virtual_db_hostname}.* TO '${virtual_db_hostname}'@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
+            CREATE DATABASE IF NOT EXISTS \`${virtual_db_hostname}\` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+            GRANT ALL ON \`${virtual_db_hostname}\`.* TO \`${virtual_db_hostname}\`@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
             """
 
             # Make sure to restart Apache at the end of the script

@@ -1,5 +1,14 @@
 # servant changelog
 
+## 0.1.4
+
+- Don't restart services in case no changed configurations
+- Only apply apt updates in case of pending ones
+- New provisioner plugin, once again - released via [RubyGems](https://rubygems.org/gems/vagrant-servant-hosts-provisioner)
+- Separate virtual host formula
+- Add missing check to prevent duplicate project creation
+- Add OPcache PHP module
+
 ## 0.1.3
 
 - Remove stale projects [#6](https://github.com/frdmn/servant/issues/6)

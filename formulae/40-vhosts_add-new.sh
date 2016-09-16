@@ -35,8 +35,10 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
         virtual_hostname=$(basename "${directory}")
         virtual_db_hostname=${virtual_hostname/./_}
 
-        # write configuration file
-        sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
+        # Check if project was already created, if not create
+        if [[ ! -f "/opt/servant/projects/${virtual_hostname}" ]]; then
+            # write configuration file
+            sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
 <VirtualHost *:80>
     ServerName ${virtual_hostname}
 
@@ -53,22 +55,23 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
 </VirtualHost>
 EOAPACHE
 
-        # Enable config
-        sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"
+            # Enable config
+            sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"
 
-        # Create MySQL database and user
-        MYSQL_PWD=${args_root_password} mysql -u root -e """
-        CREATE DATABASE IF NOT EXISTS ${virtual_db_hostname} DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-        GRANT ALL ON ${virtual_db_hostname}.* TO '${virtual_db_hostname}'@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
-        """
+            # Create MySQL database and user
+            MYSQL_PWD=${args_root_password} mysql -u root -e """
+            CREATE DATABASE IF NOT EXISTS ${virtual_db_hostname} DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+            GRANT ALL ON ${virtual_db_hostname}.* TO '${virtual_db_hostname}'@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
+            """
 
-        # Make sure to restart Apache at the end of the script
-        touch /opt/servant/apache.restart
+            # Make sure to restart Apache at the end of the script
+            touch /opt/servant/apache.restart
 
-        # Create lockfile
-        touch /opt/servant/projects/${virtual_hostname}
+            # Create lockfile
+            touch /opt/servant/projects/${virtual_hostname}
 
-        echo "Created user and database \"${virtual_db_hostname}\"" | prefix "${virtual_hostname}][MySQL"
+            echo "Created user and database \"${virtual_db_hostname}\"" | prefix "${virtual_hostname}][MySQL"
+        fi
     done
 fi
 

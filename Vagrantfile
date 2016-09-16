@@ -38,7 +38,7 @@ if Vagrant.has_plugin?("vagrant-bindfs") == false || Vagrant.has_plugin?("vagran
   exit 1
 end
 
-# Check for custom projects which we add to /etc/hosts
+# Create array of static and custom vhosts for vagrant-servant-hosts-provisioner
 static_hosts = %w(webserver.dev phpmyadmin.dev phpinfo.dev)
 custom_hosts = Dir.glob(File.dirname(__FILE__) + "/public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
 total_hosts = [*static_hosts, *custom_hosts]

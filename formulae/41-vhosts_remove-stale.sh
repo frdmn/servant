@@ -28,9 +28,9 @@ fi
 ###
 
 # Check if lockfile folder is not empty
-if [[ ! -z $(find /opt/servant/projects/ -maxdepth 1 -type f) ]]; then
-    # Check if there are stale projects
-    for lockfile in /opt/servant/projects/*; do
+if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
+    # Check if there are stale vhosts
+    for lockfile in /opt/servant/vhosts/*; do
          # Store hostname in variable and substitute dots with dashes for MySQL
         virtual_hostname=$(basename "${lockfile}")
         virtual_db_hostname=${virtual_hostname/./_}

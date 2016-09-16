@@ -45,7 +45,7 @@ fi
 # Recurring bootstrap
 ###
 
-# If there are any projects in public/
+# If there are any vhosts in public/
 if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]]; then
     # For each custom virtual host
     for directory in /var/www/html/*; do
@@ -53,8 +53,8 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
         virtual_hostname=$(basename "${directory}")
         virtual_db_hostname=${virtual_hostname/./_}
 
-        # Check if project was already created, if not create
-        if [[ ! -f "/opt/servant/projects/${virtual_hostname}" ]]; then
+        # Check if vhost was already created, if not create
+        if [[ ! -f "/opt/servant/vhosts/${virtual_hostname}" ]]; then
             # write configuration file
             sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<< "$(print_apache_vhost)"
 
@@ -71,7 +71,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
             touch /opt/servant/apache.restart
 
             # Create lockfile
-            touch /opt/servant/projects/${virtual_hostname}
+            touch /opt/servant/vhosts/${virtual_hostname}
 
             echo "Created user and database \"${virtual_db_hostname}\"" | prefix "${virtual_hostname}][MySQL"
         fi

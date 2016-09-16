@@ -18,7 +18,7 @@ args_version="${1}"
 
 if [[ ! -f /opt/servant/formulae/apt.lockfile ]]; then
     # Create folders to store lockfiles
-    mkdir -p /opt/servant/{formulae,projects}
+    mkdir -p /opt/servant/{formulae,vhosts}
 
     # Use apt mirror based on geographical location
     cat > /etc/apt/sources.list.d/apt-geo-mirror.list <<EOAPT

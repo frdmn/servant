@@ -37,6 +37,7 @@ if [[ ! -f /opt/servant/formulae/php.lockfile ]]; then
         php${args_php_version}-mbstring \
         php${args_php_version}-mcrypt \
         php${args_php_version}-mysqlnd \
+        php${args_php_version}-opcache \
         php${args_php_version}-pgsql \
         php${args_php_version}-sqlite3 \
         php${args_php_version}-xdebug \

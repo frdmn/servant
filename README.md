@@ -9,14 +9,11 @@
 
 ## Installation
 
-1. Make sure you've installed all requirements:
+1. Make sure you've installed the required Vagrant plugins:
 
     ```shell
-    vagrant plugin install vagrant-bindfs
-    vagrant plugin install vendor/vagrant-hosts-provisioner-2.0.gem
+    vagrant plugin install vagrant-bindfs vagrant-servant-hosts-provisioner
     ```
-
-    *Caution*: The second command installs a [`vagrant-hostsupdater`](https://github.com/frdmn/vagrant-hostsupdater) fork, which is bundled as gem file within the repository and required to properly write and update the `/etc/hosts` file.
 
 2. Clone this repository:
 

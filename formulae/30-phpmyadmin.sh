@@ -70,6 +70,9 @@ EOAPACHE
     \$cfg['SaveDir'] = '';
 EOCONFIG
 
+    # Add info about credentials in login modal
+    sudo sed -i 's/<fieldset>/<fieldset><p><b>servant<\/b> is using the hostname of your virtual hosts as <i>database name<\/i>, <i>username<\/i> as well as the <i>password<\/i>.<\/p>/g' /var/www/phpmyadmin/libraries/plugins/auth/AuthenticationCookie.php
+
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/phpmyadmin.lockfile
 fi

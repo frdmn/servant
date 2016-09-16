@@ -70,8 +70,6 @@ EOAPACHE
 
         echo "Created user and database \"${virtual_db_hostname}\"" | prefix "+][${virtual_hostname}][MySQL"
     done
-else
-    echo "No projects found in \"public/\" folder." | prefix
 fi
 
 # Check if lockfile folder is not empty

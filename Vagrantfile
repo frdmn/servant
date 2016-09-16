@@ -46,9 +46,6 @@ Vagrant.configure('2') do |config|
   config.vm.hostname = "servant"
   config.vm.define "servant" do |iwelthost| end
 
-  # Setup hostmanager plugin
-  config.hostsupdater.aliases = total_hosts
-
   # Network interfaces
   config.vm.network :private_network, ip: configuration["server"]["ip"]
   config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]
@@ -78,4 +75,11 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "mysql", path: "#{configuration["general"]["source_uri"]}/formulae/20-mysql.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["version"]}"]
   config.vm.provision "shell", name: "phpmyadmin", path: "#{configuration["general"]["source_uri"]}/formulae/30-phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+
+  # Update /etc/hosts file on host and guest
+  config.vm.provision :hostsupdate, run: 'always' do |hosts|
+      hosts.manage_host = true
+      hosts.manage_guest = true
+      hosts.aliases = total_hosts
+  end
 end

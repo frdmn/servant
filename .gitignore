@@ -2,6 +2,7 @@
 .vagrant
 public/*
 !public/.gitkeep
+docs/_build
 
 ### OSX ###
 *.DS_Store

@@ -51,8 +51,12 @@ fi
 # Recurring bootstrap
 ###
 
-# Upgrade system packages
-sudo apt-get upgrade -y 2>&1 | prefix "upgrade"
+# Check for pending upgrade/autoremove actions
+if [[ $(apt-get -s upgrade | wc -l) != 4 ]]; then
+    # Upgrade system packages
+    sudo apt-get upgrade -y 2>&1 | prefix "upgrade"
+    sudo apt-get autoremove -y 2>&1 | prefix "autoremove"
+fi
 
 # Exit without errors
 exit 0

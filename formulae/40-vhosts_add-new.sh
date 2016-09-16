@@ -54,7 +54,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
 EOAPACHE
 
         # Enable config
-        sudo a2ensite ${virtual_hostname}.conf | prefix "+][${virtual_hostname}][Apache"
+        sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"
 
         # Create MySQL database and user
         MYSQL_PWD=${args_root_password} mysql -u root -e """
@@ -68,7 +68,7 @@ EOAPACHE
         # Create lockfile
         touch /opt/servant/projects/${virtual_hostname}
 
-        echo "Created user and database \"${virtual_db_hostname}\"" | prefix "+][${virtual_hostname}][MySQL"
+        echo "Created user and database \"${virtual_db_hostname}\"" | prefix "${virtual_hostname}][MySQL"
     done
 fi
 

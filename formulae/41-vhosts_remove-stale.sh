@@ -9,6 +9,9 @@ function prefix {
     fi
 }
 
+# Store arguments and variables
+args_root_password="${1}"
+
 ###
 # Initial bootstrap
 ###

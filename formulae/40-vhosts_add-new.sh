@@ -9,6 +9,24 @@ function prefix {
     fi
 }
 
+function print_apache_vhost { cat <<EOF
+<VirtualHost *:80>
+    ServerName ${virtual_hostname}
+
+    DocumentRoot /var/www/html/${virtual_hostname}
+
+    <Directory /var/www/html/${virtual_hostname}>
+        Options +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    CustomLog \${APACHE_LOG_DIR}/${virtual_hostname}_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/${virtual_hostname}_error.log
+</VirtualHost>
+EOF
+}
+
 # Store arguments and variables
 args_root_password="${1}"
 
@@ -38,22 +56,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
         # Check if project was already created, if not create
         if [[ ! -f "/opt/servant/projects/${virtual_hostname}" ]]; then
             # write configuration file
-            sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<EOAPACHE
-<VirtualHost *:80>
-    ServerName ${virtual_hostname}
-
-    DocumentRoot /var/www/html/${virtual_hostname}
-
-    <Directory /var/www/html/${virtual_hostname}>
-        Options +FollowSymLinks +MultiViews
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    CustomLog \${APACHE_LOG_DIR}/${virtual_hostname}_access.log combined
-    ErrorLog \${APACHE_LOG_DIR}/${virtual_hostname}_error.log
-</VirtualHost>
-EOAPACHE
+            sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<< "$(print_apache_vhost)"
 
             # Enable config
             sudo a2ensite ${virtual_hostname}.conf | prefix "${virtual_hostname}][Apache"

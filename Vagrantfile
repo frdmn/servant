@@ -31,6 +31,13 @@ else
   exit 1
 end
 
+# Check for required Vagrant plugins
+if Vagrant.has_plugin?("vagrant-bindfs") == false || Vagrant.has_plugin?("vagrant-servant-hosts-provisioner") == false
+  puts "Error: Some of the required Vagrant plugins are missing:\n\n"
+  puts "  vagrant plugin install vagrant-bindfs vagrant-servant-hosts-provisioner"
+  exit 1
+end
+
 # Check for custom projects which we add to /etc/hosts
 static_hosts = %w(webserver.dev phpmyadmin.dev phpinfo.dev)
 custom_hosts = Dir.glob(File.dirname(__FILE__) + "/public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}

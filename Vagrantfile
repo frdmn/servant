@@ -33,7 +33,7 @@ end
 
 # Check for custom projects which we add to /etc/hosts
 static_hosts = %w(webserver.dev phpmyadmin.dev phpinfo.dev)
-custom_hosts = Dir.glob("public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
+custom_hosts = Dir.glob(File.dirname(__FILE__) + "/public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
 total_hosts = [*static_hosts, *custom_hosts]
 
 ###

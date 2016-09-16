@@ -5,7 +5,16 @@
 
 [![asciicast](https://asciinema.org/a/85841.png)](https://asciinema.org/a/85841)
 
-**Servant** is a custom Vagrant virtual machine which offers a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but isolated from your host system. Primary goal is to provide a consistent dev environment for developers or employees in a small company/startup.
+**Servant** is a custom Vagrant virtual machine which offers a straightforward and easy to use web-development system based on services like [Apache](https://httpd.apache.org/), [PHP (FPM)](http://php-fpm.org/), [MySQL](https://www.mysql.com/) and [phpMyAdmin](https://www.phpmyadmin.net/), but isolated from your host system. Primary goal is to provide a consistent dev environment for developers or employees of a small company/startup. 
+
+## Features
+
+- Isolated from OS X host system (OS updates won't affect the dev services, ever)
+- Performant (PHP-FPM and opCache module enabled)
+- Easily add and remove projects (virtual hosts), **servant** automatically creates the necessary web server configurations as well as a MySQL database
+- Automatically write/update `/etc/hosts` file on your Mac
+- Supports PHP 5.6 and alternatively 5.6 
+- Supports MySQL 5.6 and alternatively 5.6 
 
 ## Installation
 

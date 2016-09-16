@@ -33,7 +33,7 @@ if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
     for lockfile in /opt/servant/vhosts/*; do
          # Store hostname in variable and substitute dots with dashes for MySQL
         virtual_hostname=$(basename "${lockfile}")
-        virtual_db_hostname=${virtual_hostname/./_}
+        virtual_db_hostname=${${virtual_hostname/./_}:0:16}
 
         # Check if directroy still exists in public/ folder
         if [[ ! -d "/var/www/html/${virtual_hostname}" ]]; then

@@ -51,7 +51,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
     for directory in /var/www/html/*; do
         # Store hostname in variable and substitute dots with dashes for MySQL
         virtual_hostname=$(basename "${directory}")
-        virtual_db_hostname=${virtual_hostname/./_}
+        virtual_db_hostname=${${virtual_hostname/./_}:0:16}
 
         # Check if vhost was already created, if not create
         if [[ ! -f "/opt/servant/vhosts/${virtual_hostname}" ]]; then

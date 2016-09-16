@@ -1,3 +1,9 @@
+### servant ###
 .vagrant
 public/*
 !public/.gitkeep
+
+### OSX ###
+*.DS_Store
+.AppleDouble
+.LSOverride

@@ -67,7 +67,7 @@ Vagrant.configure('2') do |config|
     vbox.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 
-  # Shared folder for Apache DocumentRoot
+  # Shared folder via NFS (and bindfs) for Apache DocumentRoot
   config.vm.synced_folder ".", "/var/nfs", type: "nfs"
   config.bindfs.bind_folder "/var/nfs", "/vagrant"
 

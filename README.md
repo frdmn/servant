@@ -104,7 +104,7 @@ The following steps explain how to add new virtual hosts or web projects in the 
 
 ## Version
 
-0.1.3
+0.1.4
 
 ## License
 

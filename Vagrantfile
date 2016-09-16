@@ -74,7 +74,8 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "apache", path: "#{configuration["general"]["source_uri"]}/formulae/20-apache.sh"
   config.vm.provision "shell", name: "mysql", path: "#{configuration["general"]["source_uri"]}/formulae/20-mysql.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["version"]}"]
   config.vm.provision "shell", name: "phpmyadmin", path: "#{configuration["general"]["source_uri"]}/formulae/30-phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
-  config.vm.provision "shell", name: "vhosts", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+  config.vm.provision "shell", name: "vhosts_add", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts_add-new.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+  config.vm.provision "shell", name: "vhosts_remove", path: "#{configuration["general"]["source_uri"]}/formulae/41-vhosts_remove-stale.sh"
 
   # Update /etc/hosts file on host and guest
   config.vm.provision :hostsupdate, run: 'always' do |hosts|

@@ -20,11 +20,17 @@ Features
 
 .. toctree::
    :maxdepth: 2
-   :caption: Content
+   :caption: Getting started
 
    requirements
    installation
-   usage
+   general
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Usage
+
+   installation
 
 Indices and tables
 ==================

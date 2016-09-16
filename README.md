@@ -16,57 +16,9 @@
 - Supports PHP 5.6 and alternatively 5.6 
 - Supports MySQL 5.6 and alternatively 5.6 
 
-## Installation
+## Installation and usage
 
-1. Make sure you've installed the required Vagrant plugins:
-
-    ```shell
-    vagrant plugin install vagrant-bindfs vagrant-servant-hosts-provisioner
-    ```
-
-2. Clone this repository:
-
-    ```shell
-    cd
-    git clone https://github.com/frdmn/servant
-    ```
-
-3. Copy the sample configuration file into your `$HOME`:
-
-    ```shell
-    cp servant/config.json ~/.servant.json
-    ```
-
-Follow the Usage instructions how to correctly setup new projects.
-    
-## Usage
-
-### Create and bootstrap virtual machine initally
-
-1. To initially create the **servant** machine, just run:
-
-    ```shell
-    cd ~/servant
-    vagrant up
-    ```
-
-### Add a new virtual host / web project
-
-The following steps explain how to add new virtual hosts or web projects in the Apache configuration and setup MySQL databases:
-
-1. Create a new directory in the `public/` folder, which is using the hostname of your choice as foldername:
-
-    ```shell
-    cd ~/servant/public
-    mkdir demoproject.io
-    echo "<?php echo 'test';" > demoproject.io/index.php
-    ```
-
-2. Run the Vagrant command, so **servant** can setup your Apache configurations and create your database as well as adjust your `/etc/hosts` file on your Mac:
-
-    ```shell
-    vagrant provision
-    ```
+Please take a look at the documentation over at http://servant.rtfd.io.
 
 ## Contributing
 

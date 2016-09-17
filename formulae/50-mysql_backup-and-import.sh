@@ -9,7 +9,7 @@ function prefix {
     fi
 }
 
-# Function to create backup of certain virtual host
+# Function to create backup of certain MySQL user
 function backup_all_databases {
     mysql_user="${1}"
     mysql_pass="${2}"
@@ -48,9 +48,7 @@ fi
 # Recurring bootstrap
 ###
 
-### Backups
-
-# Search for manual created sql backup lockfiles
+# Search for manual created SQL backup lockfiles
 for lockfile in $(find /var/www/html/ -name create-mysql-backup); do
     # Substitue path to return only vhost name
     virtual_hostname="${lockfile/\/var\/www\/html\//}"

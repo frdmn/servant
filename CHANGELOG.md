@@ -1,5 +1,14 @@
 # servant changelog
 
+## 0.1.5
+
+- Add extended docs: http://servant.rtfd.io
+- Cleanup comments
+- Use `servant.dev` as default hostname
+- Remove unused `host_port_http` option from config.json
+- Add passwordless login to phpMyAdmin ([e2fa37f](https://github.com/frdmn/servant/commit/e2fa37fbd27dfa39201923b8a69e9cf9b99f6b89))
+- Add htdocs/logs folder within projects document root ([436c42e](https://github.com/frdmn/servant/commit/436c42e9639861c10fc19776fdaef67342bf300a))
+
 ## 0.1.4
 
 - Don't restart services in case no changed configurations

@@ -77,6 +77,7 @@ EOAPACHE
     \$cfg['Servers'][\$i]['controlpass'] = 'phpmyadmin';
     \$cfg['Servers'][\$i]['user'] = \$virtual_db_hostname;
     \$cfg['Servers'][\$i]['password'] = \$virtual_db_hostname;
+    \$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
     \$cfg['Servers'][\$i]['verbose'] = \$virtual_hostname;
   }
 

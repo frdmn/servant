@@ -53,25 +53,60 @@ EOAPACHE
     # Adjust default configuration
     cat > /var/www/phpmyadmin/config.inc.php <<EOCONFIG
 <?php
-    \$cfg['blowfish_secret'] = '${random_hash}';
+  \$cfg['blowfish_secret'] = '${random_hash}';
 
-    \$i = 0;
+  \$cfg['UploadDir'] = '';
+  \$cfg['SaveDir'] = '';
+
+  \$i = 1;
+
+  \$cfg['Servers'][\$i]['auth_type'] = 'cookie';
+  \$cfg['Servers'][\$i]['controluser'] = 'phpmyadmin';
+  \$cfg['Servers'][\$i]['controlpass'] = 'phpmyadmin';
+  \$cfg['Servers'][\$i]['verbose'] = 'Manual login';
+
+  \$vhosts= glob("/opt/servant/vhosts/*");
+  foreach (\$vhosts as \$vhost) {
+    \$virtual_hostname = basename(\$vhost);
+    \$virtual_db_hostname = str_replace(".", "_", \$virtual_hostname);
+    \$virtual_db_hostname = substr(\$virtual_db_hostname, 0, 16);
+
     \$i++;
 
-    \$cfg['Servers'][\$i]['auth_type'] = 'cookie';
-    \$cfg['Servers'][\$i]['host'] = 'localhost';
-    \$cfg['Servers'][\$i]['connect_type'] = 'tcp';
-    \$cfg['Servers'][\$i]['compress'] = false;
-    \$cfg['Servers'][\$i]['AllowNoPassword'] = false;
+    \$cfg['Servers'][\$i]['auth_type'] = 'config';
     \$cfg['Servers'][\$i]['controluser'] = 'phpmyadmin';
     \$cfg['Servers'][\$i]['controlpass'] = 'phpmyadmin';
+    \$cfg['Servers'][\$i]['user'] = \$virtual_db_hostname;
+    \$cfg['Servers'][\$i]['password'] = \$virtual_db_hostname;
+    \$cfg['Servers'][\$i]['verbose'] = \$virtual_hostname;
+  }
 
-    \$cfg['UploadDir'] = '';
-    \$cfg['SaveDir'] = '';
 EOCONFIG
 
     # Add info about credentials in login modal
-    sudo sed -i 's/<fieldset>/<fieldset><p><b>servant<\/b> is using the hostname of your virtual hosts as <i>database name<\/i>, <i>username<\/i> as well as the <i>password<\/i>.<\/p>/g' /var/www/phpmyadmin/libraries/plugins/auth/AuthenticationCookie.php
+    sudo sed -i "s/' \. __('Server Choice:') \. '/Quick select:/g" /var/www/phpmyadmin/libraries/plugins/auth/AuthenticationCookie.php
+
+    # Create a custom JS file to hide/show user and pass input
+    cat > /var/www/phpmyadmin/js/quickselect.js <<EOSCRIPT
+\$(function() {
+  \$('form.login select#select_server').change(function(){
+    if (\$(this).val() != 1){
+      \$('#input_username').parent().fadeOut()
+      \$('#input_password').parent().fadeOut()
+    } else {
+      \$('#input_username').parent().fadeIn()
+      \$('#input_password').parent().fadeIn()
+    }
+  });
+
+  if (\$("select#select_server option[value=2]")){
+    \$("select#select_server").val("2").trigger("change");
+  }
+});
+EOSCRIPT
+
+    # Include JS file in "load scripts" function
+    sudo sed -i "s/menu\-resizer\.js');/menu\-resizer\.js');\n        \$this\->_scripts\->addFile('quickselect\.js');/g" /var/www/phpmyadmin/libraries/Header.php
 
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/phpmyadmin.lockfile

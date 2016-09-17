@@ -32,9 +32,10 @@ if [[ ! -f /opt/servant/formulae/apache.lockfile ]]; then
     sudo ln -sf /vagrant/public /var/www/html
 
     # Write new default virtual host
-    sudo bash -c "cat > /etc/apache2/sites-available/00-webserver.dev.conf" <<EOAPACHE
+    sudo bash -c "cat > /etc/apache2/sites-available/00-servant.dev.conf" <<EOAPACHE
 <VirtualHost *:80>
-    ServerName webserver.dev
+    ServerName servant.dev
+    ServerAlias webserver.dev
 
     DocumentRoot /var/www/html
 
@@ -44,8 +45,8 @@ if [[ ! -f /opt/servant/formulae/apache.lockfile ]]; then
         Require all granted
     </Directory>
 
-    CustomLog \${APACHE_LOG_DIR}/webserver.dev_access.log combined
-    ErrorLog \${APACHE_LOG_DIR}/webserver.dev_error.log
+    CustomLog \${APACHE_LOG_DIR}/servant.dev_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/servant.dev_error.log
 </VirtualHost>
 EOAPACHE
 
@@ -86,7 +87,7 @@ EOPHPINFO
 
     # Enable configs and restart web server
     sudo a2enconf php.conf servername.conf | prefix "config"
-    sudo a2ensite 00-phpinfo.dev.conf 00-webserver.dev.conf | prefix "config"
+    sudo a2ensite 00-phpinfo.dev.conf 00-servant.dev.conf | prefix "config"
 
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/apache.lockfile

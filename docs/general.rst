@@ -3,6 +3,8 @@
 General
 =======
 
+Vagrant commands expects to be executed from within the directory where the ``Vagrantfile`` is located. Make sure to change into the directory where you've cloned **servant** to, when running the commands below.
+
 Start/create virtual machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

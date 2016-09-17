@@ -13,16 +13,16 @@ function print_apache_vhost { cat <<EOF
 <VirtualHost *:80>
     ServerName ${virtual_hostname}
 
-    DocumentRoot /var/www/html/${virtual_hostname}
+    DocumentRoot /var/www/html/${virtual_hostname}/htdocs
 
-    <Directory /var/www/html/${virtual_hostname}>
+    <Directory /var/www/html/${virtual_hostname}/htdocs>
         Options +FollowSymLinks +MultiViews
         AllowOverride All
         Require all granted
     </Directory>
 
-    CustomLog \${APACHE_LOG_DIR}/${virtual_hostname}_access.log combined
-    ErrorLog \${APACHE_LOG_DIR}/${virtual_hostname}_error.log
+    CustomLog /var/www/html/${virtual_hostname}/logs/access.log combined
+    ErrorLog /var/www/html/${virtual_hostname}/logs/error.log
 </VirtualHost>
 EOF
 }
@@ -56,6 +56,9 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
 
         # Check if vhost was already created, if not create
         if [[ ! -f "/opt/servant/vhosts/${virtual_hostname}" ]]; then
+            # Create necessary folders
+            sudo mkdir -p ${directory}/{htdocs,logs}
+
             # write configuration file
             sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<< "$(print_apache_vhost)"
 

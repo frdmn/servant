@@ -49,7 +49,7 @@ fi
 ###
 
 # Search for manual created SQL backup lockfiles
-for lockfile in $(find /var/www/html/ -name create-mysql-backup); do
+for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name create-mysql-backup); do
     # Substitue path to return only vhost name
     virtual_hostname="${lockfile/\/var\/www\/html\//}"
     virtual_hostname="${virtual_hostname/\/create-mysql-backup/}"
@@ -66,6 +66,21 @@ if [[ "${args_destroy_hook}" == "true" ]]; then
 
     backup_all_databases "root" "${args_root_password}" "/var/www/html" "pre-destroy"
 fi
+
+# Search for manual created SQL import files
+for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "import.sql"); do
+    # Substitue path to return only vhost name
+    virtual_hostname="${lockfile/\/var\/www\/html\//}"
+    virtual_hostname="${virtual_hostname/\/import.sql/}"
+    virtual_db_hostname=$(cat "/opt/servant/mysql/${virtual_hostname}")
+
+    echo "Found SQL import file for \"${virtual_hostname}\"..." | prefix "import"
+
+    MYSQL_PWD=${virtual_db_hostname} mysql -u ${virtual_db_hostname} ${virtual_db_hostname} < ${lockfile}
+
+    # Rename import file so it wont get processed again
+    mv ${lockfile} /var/www/html/${virtual_hostname}/successfully-imported.sql
+done
 
 # Exit without errors
 exit 0

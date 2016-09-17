@@ -57,7 +57,7 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
         # Check if vhost was already created, if not create
         if [[ ! -f "/opt/servant/vhosts/${virtual_hostname}" ]]; then
             # Create necessary folders
-            sudo mkdir -p ${directory}/{htdocs,logs}
+            sudo mkdir -p ${directory}/{htdocs,logs,backups}
 
             # write configuration file
             sudo bash -c "cat > /etc/apache2/sites-available/${virtual_hostname}.conf" <<< "$(print_apache_vhost)"

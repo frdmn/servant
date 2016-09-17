@@ -1,7 +1,6 @@
 {
   "general": {
-    "source_uri":     ".",
-    "host_port_http": "8000"
+    "source_uri":     "."
   },
 
   "server": {

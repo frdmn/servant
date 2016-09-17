@@ -55,7 +55,6 @@ Vagrant.configure('2') do |config|
 
   # Network interfaces
   config.vm.network :private_network, ip: configuration["server"]["ip"]
-  config.vm.network :forwarded_port, guest: 80, host: configuration["general"]["host_port_http"]
 
   # Fix "stdin: is not a tty" warnings while shell provisioning
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"

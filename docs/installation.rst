@@ -1,3 +1,5 @@
+.. _installation:
+
 Installation
 ============
 
@@ -10,6 +12,6 @@ Installation
     cd
     git clone https://github.com/frdmn/servant
 
-3. Copy the sample configuration file into your ``$HOME`: ::
+3. Copy the sample configuration file into your ``$HOME``: ::
 
     cp servant/config.json ~/.servant.json

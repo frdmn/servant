@@ -49,6 +49,7 @@ Please take a look at the documentation over at http://servant.rtfd.io.
 * [Vagrant](https://www.vagrantup.com/)
     - [`vagrant-bindfs`](https://github.com/gael-ian/vagrant-bindfs) plugin
     - [`vagrant-hosts-provisioner`](https://github.com/frdmn/vagrant-hosts-provisioner) plugin (custom fork)
+    - [`vagrant-triggers`](https://github.com/emyl/vagrant-triggers) plugin
 
 ## Credits
 

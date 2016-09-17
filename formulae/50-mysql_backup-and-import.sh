@@ -31,6 +31,7 @@ function backup_all_databases {
 
 # Store arguments and variables
 args_root_password="${1}"
+args_destroy_hook="${2:-false}"
 
 ###
 # Initial bootstrap
@@ -61,3 +62,12 @@ for lockfile in $(find /var/www/html/ -name create-mysql-backup); do
     rm ${lockfile}
 done
 
+# If Vagrant destroy hook fired, backup every database available
+if [[ "${args_destroy_hook}" == "true" ]]; then
+    echo "Destroy event detected." | prefix "backup"
+
+    backup_all_databases "root" "${args_root_password}" "/var/www/html" "pre-destroy"
+fi
+
+# Exit without errors
+exit 0

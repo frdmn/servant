@@ -90,4 +90,9 @@ Vagrant.configure('2') do |config|
       hosts.manage_guest = true
       hosts.aliases = total_hosts
   end
+
+  # Create backups of every database available before destroying machine
+  config.trigger.before :destroy do
+    run_remote "sudo bash /vagrant/formulae/50-mysql_backup-and-import.sh #{configuration["mysql"]["root_password"]} true"
+  end
 end

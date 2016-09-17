@@ -32,9 +32,9 @@ else
 end
 
 # Check for required Vagrant plugins
-if Vagrant.has_plugin?("vagrant-bindfs") == false || Vagrant.has_plugin?("vagrant-servant-hosts-provisioner") == false
+if Vagrant.has_plugin?("vagrant-bindfs") == false || Vagrant.has_plugin?("vagrant-servant-hosts-provisioner") == false || Vagrant.has_plugin?("vagrant-triggers") == false
   puts "Error: Some of the required Vagrant plugins are missing:\n\n"
-  puts "  vagrant plugin install vagrant-bindfs vagrant-servant-hosts-provisioner"
+  puts "  vagrant plugin install vagrant-bindfs vagrant-servant-hosts-provisioner vagrant-triggers"
   exit 1
 end
 

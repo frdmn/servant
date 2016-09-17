@@ -71,6 +71,9 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
             GRANT ALL ON \`${virtual_db_hostname}\`.* TO \`${virtual_db_hostname}\`@'localhost' IDENTIFIED BY '${virtual_db_hostname}';
             """
 
+            # Store lockfile / password for the database
+            printf "${virtual_db_hostname}" > /opt/servant/mysql/${virtual_hostname}
+
             # Make sure to restart Apache at the end of the script
             touch /opt/servant/apache.restart
 

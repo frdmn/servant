@@ -68,8 +68,7 @@ EOAPACHE
   \$vhosts= glob("/opt/servant/vhosts/*");
   foreach (\$vhosts as \$vhost) {
     \$virtual_hostname = basename(\$vhost);
-    \$virtual_db_hostname = str_replace(".", "_", \$virtual_hostname);
-    \$virtual_db_hostname = substr(\$virtual_db_hostname, 0, 16);
+    \$virtual_db_hostname = file_get_contents('/opt/servant/mysql/'.\$virtual_hostname);
 
     \$i++;
 

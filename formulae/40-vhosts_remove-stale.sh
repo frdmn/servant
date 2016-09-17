@@ -31,10 +31,9 @@ fi
 if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
     # Check if there are stale vhosts
     for lockfile in /opt/servant/vhosts/*; do
-         # Store hostname in variable and substitute dots with dashes for MySQL
+         # Load substituted database/password name
         virtual_hostname=$(basename "${lockfile}")
-        virtual_db_hostname=${virtual_hostname/./_}
-        virtual_db_hostname=${virtual_db_hostname:0:16}
+        virtual_db_hostname=$(cat "/opt/servant/mysql/${virtual_hostname}")
 
         # Check if directroy still exists in public/ folder
         if [[ ! -d "/var/www/html/${virtual_hostname}" ]]; then

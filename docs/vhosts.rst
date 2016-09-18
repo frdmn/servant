@@ -35,3 +35,13 @@ To remove a virtual host, simply delete the directory that represents the hostna
 Don't forget to reload **servant**: ::
 
     vagrant provision
+
+Customizations
+~~~~~~~~~~~~~~
+
+You can override the default Apache web server configuration for your virtual host in case you need a custom DocumentRoot or an additonal ServerAlias. To do that you need to place a JSON configuration file named ``servant.json`` in your project root folder. Checkout the example below:: :
+
+  {
+    "document_root": "blog",
+    "server_alias": "aliasdomain.com"
+  }

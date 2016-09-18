@@ -50,7 +50,7 @@ for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "servant.json"); do
             rm /opt/servant/vhosts_custom/${virtual_hostname}/*_docroot 2>/dev/null
 
             # If path doesn't begin with "/", create relative path
-            if [[ $config_docroot != /* ]]; then
+            if [[ "${config_docroot}" != /* ]]; then
                 docroot="/var/www/html/${virtual_hostname}/htdocs/${config_docroot}"
             fi
 
@@ -75,7 +75,7 @@ for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "servant.json"); do
             rm /opt/servant/vhosts_custom/${virtual_hostname}/*_alias 2>/dev/null
 
             # Reset possible previous Alias
-            sed -i '/ServerAlias/d' ${vhost_file}
+            sed -i '/ServerAlias/d' "${vhost_file}"
 
             # Add server alias
             sed -i "/ServerName .*/a \    ServerAlias ${config_alias}" "${vhost_file}"
@@ -113,7 +113,7 @@ for lockfile in $(find /opt/servant/vhosts_custom/ -maxdepth 2 -type f ! -path /
         # Make sure virtual host is still enabled
         if [[ -f "${vhost_file}" ]]; then
             # If DocumentRoot needs a reset
-            if [[ $action == "docroot" ]]; then
+            if [[ "${action}" == "docroot" ]]; then
                 echo "Reset DocumentRoot to default" | prefix "${virtual_hostname}"
 
                 docroot="/var/www/html/${virtual_hostname}/htdocs"
@@ -123,10 +123,10 @@ for lockfile in $(find /opt/servant/vhosts_custom/ -maxdepth 2 -type f ! -path /
             fi
 
             # If ServerAlias needs a reset
-            if [[ $action == "alias" ]]; then
+            if [[ "${action}" == "alias" ]]; then
                 echo "Reset ServerAlias to default" | prefix "${virtual_hostname}"
 
-                sed -i '/ServerAlias/d' ${vhost_file}
+                sed -i '/ServerAlias/d' "${vhost_file}"
             fi
 
             # Make sure to restart Apache at the end of the script
@@ -134,7 +134,7 @@ for lockfile in $(find /opt/servant/vhosts_custom/ -maxdepth 2 -type f ! -path /
         fi
 
         # Remove lockfile
-        rm $lockfile
+        rm "${lockfile}"
     fi
 done
 

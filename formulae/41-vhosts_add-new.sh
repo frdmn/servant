@@ -76,6 +76,9 @@ if [[ ! -z $(find /var/www/html/ -maxdepth 1 -type d ! -path /var/www/html/) ]];
                 # Store lockfile / password for the database
                 printf "${virtual_db_hostname}" > /opt/servant/mysql/${virtual_hostname}
 
+                # Create folders to store hashfiles
+                mkdir -p /opt/servant/vhosts_custom/${virtual_hostname}
+
                 # Make sure to restart Apache at the end of the script
                 touch /opt/servant/apache.restart
 

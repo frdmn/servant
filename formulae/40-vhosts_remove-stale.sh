@@ -47,6 +47,9 @@ if [[ ! -z $(find /opt/servant/vhosts/ -maxdepth 1 -type f) ]]; then
             DROP USER \`${virtual_db_hostname}\`@'localhost';
             """
 
+            # Remove lockfile folder
+            rm -rf /opt/servant/vhosts_custom/${virtual_hostname}
+
             # Make sure to restart Apache at the end of the script
             touch /opt/servant/apache.restart
 

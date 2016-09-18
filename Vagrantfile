@@ -41,6 +41,7 @@ end
 # Create array of static and custom vhosts for vagrant-servant-hosts-provisioner
 static_hosts = %w(servant.dev webserver.dev phpmyadmin.dev phpinfo.dev)
 custom_hosts = Dir.glob(File.dirname(__FILE__) + "/public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
+custom_aliases = "todo"
 total_hosts = [*static_hosts, *custom_hosts]
 
 ###
@@ -82,6 +83,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "phpmyadmin", path: "#{configuration["general"]["source_uri"]}/formulae/30-phpmyadmin.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts_remove-stale", path: "#{configuration["general"]["source_uri"]}/formulae/40-vhosts_remove-stale.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts_add-new", path: "#{configuration["general"]["source_uri"]}/formulae/41-vhosts_add-new.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+  config.vm.provision "shell", name: "vhosts_custom", path: "#{configuration["general"]["source_uri"]}/formulae/42-vhosts_custom.sh"
   config.vm.provision "shell", name: "mysql_backup-and-import", path: "#{configuration["general"]["source_uri"]}/formulae/50-mysql_backup-and-import.sh", args: ["#{configuration["mysql"]["root_password"]}"]
 
   # Update /etc/hosts file on host and guest

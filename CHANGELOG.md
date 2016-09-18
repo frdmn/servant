@@ -1,5 +1,12 @@
 # servant changelog
 
+## 0.1.6
+
+- Hide `information_schema` databases in phpMyAdmin
+- Add MySQL backup and import functionality ([#7](https://github.com/frdmn/servant/issues/7)) 
+- Create emergency MySQL backups in case of Vagrant destroy 
+- Allow virtual host customizations ([#13](https://github.com/frdmn/servant/issues/13))
+
 ## 0.1.5
 
 - Add extended docs: http://servant.rtfd.io

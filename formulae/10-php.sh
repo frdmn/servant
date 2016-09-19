@@ -88,6 +88,9 @@ EOXDEBUG
     # Increase execution time
     sudo sed -i "s/max_execution_time =.*/max_execution_time = 300/" /etc/php/${args_php_version}/fpm/php.ini
 
+    # Install Composer
+    curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer | prefix "composer"
+
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/php.lockfile
 

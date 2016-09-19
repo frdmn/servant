@@ -39,8 +39,11 @@ if [[ ! -f /opt/servant/formulae/php.lockfile ]]; then
         php${args_php_version}-mysqlnd \
         php${args_php_version}-opcache \
         php${args_php_version}-pgsql \
+        php${args_php_version}-soap \
         php${args_php_version}-sqlite3 \
         php${args_php_version}-xdebug \
+        php${args_php_version}-xml \
+        php${args_php_version}-zip \
         2>&1 | prefix "APT install"
 
     # Use TCP listener instead of Unix socket

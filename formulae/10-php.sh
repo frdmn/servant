@@ -66,8 +66,8 @@ xdebug.remote_port = 9000
 xdebug.scream=0
 xdebug.cli_color=1
 xdebug.show_local_vars=1
+xdebug.max_nesting_level=500
 
-; var_dump display
 xdebug.var_display_max_depth = 5
 xdebug.var_display_max_children = 256
 xdebug.var_display_max_data = 1024
@@ -80,6 +80,13 @@ EOXDEBUG
     # Set timezone for FPM and CLI
     sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/fpm/php.ini
     sudo sed -i "s/;date.timezone =.*/date.timezone = ${args_timezone/\//\\/}/" /etc/php/${args_php_version}/cli/php.ini
+
+    # Increase max upload limits
+    sudo sed -i "s/upload_max_filesize =.*/upload_max_filesize = 100M/" /etc/php/${args_php_version}/fpm/php.ini
+    sudo sed -i "s/post_max_size =.*/post_max_size = 100M/" /etc/php/${args_php_version}/fpm/php.ini
+
+    # Increase execution time
+    sudo sed -i "s/max_execution_time =.*/max_execution_time = 300/" /etc/php/${args_php_version}/fpm/php.ini
 
     # Create lockfile to indicate successful inital provisions
     touch /opt/servant/formulae/php.lockfile

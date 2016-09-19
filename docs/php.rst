@@ -28,8 +28,8 @@ When the virtual machine is booted for the first time, some of the PHP configura
 | ``xdebug.var_display_max_data``     | ``1024``                                   |
 +-------------------------------------+--------------------------------------------+
 
-``phpinfo()``
-~~~~~~~~~~~~~
+phpinfo()
+~~~~~~~~~
 
 There's a built in phpinfo page if you are interested in the current loaded settings: `<http://phpinfo.dev>`_
 

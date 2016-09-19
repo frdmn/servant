@@ -25,9 +25,9 @@ fi
 ###
 
 # Search for customization files in document roots
-for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "servant.json"); do
+for lockfile in $(find /vagrant/public/ -maxdepth 2 -name "servant.json"); do
     # Substitue path to return only vhost name
-    virtual_hostname="${lockfile/\/var\/www\/html\//}"
+    virtual_hostname="${lockfile/\/vagrant\/public\//}"
     virtual_hostname="${virtual_hostname/\/servant.json/}"
 
     hashsum=$(sha1sum ${lockfile} | awk '{ print $1 }')

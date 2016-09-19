@@ -49,7 +49,7 @@ fi
 ###
 
 # Search for manual created SQL backup lockfiles
-for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "create-mysql-backup"); do
+for lockfile in $(find /vagrant/public/ -maxdepth 1 -name "create-mysql-backup"); do
     # Substitue path to return only vhost name
     virtual_hostname="${lockfile/\/var\/www\/html\//}"
     virtual_hostname="${virtual_hostname/\/create-mysql-backup/}"
@@ -68,7 +68,7 @@ if [[ "${args_destroy_hook}" == "true" ]]; then
 fi
 
 # Search for manual created SQL import files
-for lockfile in $(find /var/www/html/*/ -maxdepth 1 -name "import.sql"); do
+for lockfile in $(find /vagrant/public/ -maxdepth 1 -name "import.sql"); do
     # Substitue path to return only vhost name
     virtual_hostname="${lockfile/\/var\/www\/html\//}"
     virtual_hostname="${virtual_hostname/\/import.sql/}"

@@ -32,3 +32,11 @@ When the virtual machine is booted for the first time, some of the PHP configura
 ~~~~~~~~~~~~~
 
 There's a built in phpinfo page if you are interested in the current loaded settings: `<http://phpinfo.dev>`_
+
+Customizations
+~~~~~~~~~~~~~~
+
+Just like with the web server configuration, you can override the global PHP settings per virtual host in case you need a special PHP environment. Just create a ``.user.ini`` file inside your document root (``htdocs`` by default) and insert your custom configuration: ::
+
+    always_populate_raw_post_data = -1
+    memory_limit = 512M

@@ -57,7 +57,7 @@ Please take a look at the documentation over at http://servant.rtfd.io.
 
 ## Version
 
-0.1.6
+0.1.7
 
 ## License
 

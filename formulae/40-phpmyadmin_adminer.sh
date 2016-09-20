@@ -17,7 +17,7 @@ random_hash="$(date | md5sum | cut -f 1 -d " ")"
 # Initial bootstrap
 ###
 
-if [[ ! -f /opt/servant/formulae/phpmyadmin.lockfile ]]; then
+if [[ ! -f /opt/servant/formulae/phpmyadmin-adminer.lockfile ]]; then
     # Download and extract latest version
     wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip -O /tmp/source.zip 2>&1 | prefix "source"
     sudo unzip -o /tmp/source.zip -d /var/www/ 2>&1 | prefix "source"
@@ -109,7 +109,7 @@ EOSCRIPT
     sudo sed -i "s/menu\-resizer\.js');/menu\-resizer\.js');\n        \$this\->_scripts\->addFile('quickselect\.js');/g" /var/www/phpmyadmin/libraries/Header.php
 
     # Create lockfile to indicate successful inital provisions
-    touch /opt/servant/formulae/phpmyadmin.lockfile
+    touch /opt/servant/formulae/phpmyadmin-adminer.lockfile
 fi
 
 ###

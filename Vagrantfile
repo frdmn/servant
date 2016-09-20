@@ -80,7 +80,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell", name: "php", path: "./formulae/10-php.sh", args: ["#{configuration["server"]["timezone"]}", "#{configuration["php"]["version"]}"]
   config.vm.provision "shell", name: "apache", path: "./formulae/20-apache.sh"
   config.vm.provision "shell", name: "mysql", path: "./formulae/30-mysql.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["version"]}"]
-  config.vm.provision "shell", name: "phpmyadmin", path: "./formulae/40-phpmyadmin_adminer.sh", args: ["#{configuration["mysql"]["root_password"]}"]
+  config.vm.provision "shell", name: "phpmyadmin_adminer", path: "./formulae/40-phpmyadmin_adminer.sh", args: ["#{configuration["mysql"]["root_password"]}", "#{configuration["mysql"]["install_adminer"]}"]
   config.vm.provision "shell", name: "vhosts_remove-stale", path: "./formulae/50-vhosts_remove-stale.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts_add-new", path: "./formulae/51-vhosts_add-new.sh", args: ["#{configuration["mysql"]["root_password"]}"]
   config.vm.provision "shell", name: "vhosts_custom", path: "./formulae/52-vhosts_custom.sh"

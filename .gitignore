@@ -1,4 +1,5 @@
 ### servant ###
+config.json
 .vagrant
 public/*
 !public/.gitkeep

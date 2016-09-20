@@ -3,7 +3,7 @@
 Configuration file
 ==================
 
-To provide some basic customization, you can edit your user config file ``~/.servant.json``. A sample configuration file is available in the source repository as ``config.json``.
+To provide some basic customization, you can edit your config file ``config.json`` within the **servant** root folder. A sample configuration file is available in the same directory as ``config.sample.json``.
 
 **Caution**: If you change the configuration and want to apply the changes you need to destroy and recreate the **servant** machine up from scratch. This means you loose your SQL databases so make sure to dump them before!
 

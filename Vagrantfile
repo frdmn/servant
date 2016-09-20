@@ -16,17 +16,17 @@
 ###
 
 # Set path for conf file
-configuration_filename = "~/.servant.json"
+configuration_filename = File.join(File.dirname(__FILE__), 'config.json')
 
 # Check if configration file exists
-if File.exist?(File.expand_path configuration_filename)
+if File.exist?(configuration_filename)
   # Store settings
-  configuration = JSON.parse(File.read(File.expand_path configuration_filename))
+  configuration = JSON.parse(File.read(configuration_filename))
 else
   # Return usage information and exit
-  sample = File.join(File.dirname(__FILE__), 'config.json')
+  sample = File.join(File.dirname(__FILE__), 'config.sample.json')
   puts "Error: No config file found (#{configuration_filename}). To apply the default configuration:\n\n"
-  puts "  cp #{sample} ~/.servant.json"
+  puts "  cp #{sample} #{configuration_filename}"
   # Exit with error code
   exit 1
 end

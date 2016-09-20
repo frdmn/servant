@@ -1,5 +1,16 @@
 # servant changelog
 
+## 0.1.7
+
+- Clean code / properly escape variables
+- Add missing default modules for common web applications (Contao, Typo3, Magento, Wordpress)
+- Add general PHP configuration parameters (`memory_limit`, `post_max_size`, `max_execution_timout`)
+- Install composer in virtual machine ([#27](https://github.com/frdmn/servant/issues/27))
+- Document how to add custom PHP settings per virtual host ([#28](https://github.com/frdmn/servant/issues/28))
+- Remove unused `soure_uri` ([#30](https://github.com/frdmn/servant/issues/30))
+- Move configuration into **servant** root folder ([#29](https://github.com/frdmn/servant/issues/29))
+- Add Adminer as alternative to phpMyAdmin ([#12](https://github.com/frdmn/servant/issues/12))
+
 ## 0.1.6
 
 - Hide `information_schema` databases in phpMyAdmin

@@ -7,13 +7,6 @@ To provide some basic customization, you can edit your user config file ``~/.ser
 
 **Caution**: If you change the configuration and want to apply the changes you need to destroy and recreate the **servant** machine up from scratch. This means you loose your SQL databases so make sure to dump them before!
 
-general.source_uri
-~~~~~~~~~~~~~~~~~~
-
-The directory where the folder ``formulae/`` is located. This setting is for possible future use of loading remote formulae instead of local ones.
-
-:Default value: ``.``
-
 server.ip
 ~~~~~~~~~
 

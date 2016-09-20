@@ -1,8 +1,4 @@
 {
-  "general": {
-    "source_uri":     "."
-  },
-
   "server": {
     "ip":             "192.168.50.10",
     "cpus":           "1",

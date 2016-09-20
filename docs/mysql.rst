@@ -30,6 +30,13 @@ phpMyAdmin
 
 To manage your databases you can use the builtin phpMyAdmin: `<http://phpmyadmin.dev>`_
 
+Adminer
+~~~~~~~~~~
+
+Alternatively to phpMyAdmin, you can use the super leightweight Adminer platform: `<http://adminer.dev>`_
+
+*Please note*: There is no quick select login functionality to authenticate, like in PMA.
+
 Create MySQL backups/dumps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 

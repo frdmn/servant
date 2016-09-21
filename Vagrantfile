@@ -16,7 +16,11 @@
 ###
 
 # Set path for conf file
-configuration_filename = File.join(File.dirname(__FILE__), 'config.json')
+if ENV["SERVANT_CONFIG"]
+  configuration_filename = File.join(ENV["SERVANT_CONFIG"])
+else
+  configuration_filename = File.join(File.dirname(__FILE__), 'config.json')
+end
 
 # Check if configration file exists
 if File.exist?(configuration_filename)

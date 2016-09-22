@@ -14,4 +14,4 @@ Installation
 
 3. Copy the sample configuration file into your ``$HOME``: ::
 
-    cp servant/config.json ~/.servant.json
+    cp servant/config.sample.json servant/config.json

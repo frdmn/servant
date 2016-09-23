@@ -38,53 +38,59 @@ for lockfile in $(find /vagrant/public/ -maxdepth 2 -name "servant.json"); do
 
         # Read servant.json
         config=$(cat ${lockfile} | python -mjson.tool 2>/dev/null)
-        config_docroot=$(echo "${config}" | grep document_root | sed 's/document_root//g' | sed 's/[:", ]//g')
-        config_alias=$(echo "${config}" | grep server_alias | sed 's/server_alias//g' | sed 's/[:", ]//g')
-        vhost_file="/etc/apache2/sites-available/${virtual_hostname}.conf"
 
-        # If custom document root
-        if [[ ! -z "${config_docroot}" ]]; then
-            docroot="${config_docroot}"
+        # Check for valid JSON syntax
+        if [[ $? != 1 ]]; then
+            config_docroot=$(echo "${config}" | grep document_root | sed 's/document_root//g' | sed 's/[:", ]//g')
+            config_alias=$(echo "${config}" | grep server_alias | sed 's/server_alias//g' | sed 's/[:", ]//g')
+            vhost_file="/etc/apache2/sites-available/${virtual_hostname}.conf"
 
-            # Remove possible outdated hashfiles
-            rm /opt/servant/vhosts_custom/${virtual_hostname}/*_docroot 2>/dev/null
+            # If custom document root
+            if [[ ! -z "${config_docroot}" ]]; then
+                docroot="${config_docroot}"
 
-            # If path doesn't begin with "/", create relative path
-            if [[ "${config_docroot}" != /* ]]; then
-                docroot="/var/www/html/${virtual_hostname}/htdocs/${config_docroot}"
+                # Remove possible outdated hashfiles
+                rm /opt/servant/vhosts_custom/${virtual_hostname}/*_docroot 2>/dev/null
+
+                # If path doesn't begin with "/", create relative path
+                if [[ "${config_docroot}" != /* ]]; then
+                    docroot="/var/www/html/${virtual_hostname}/htdocs/${config_docroot}"
+                fi
+
+                echo "... Setting DocumentRoot to \"${docroot}\"" | prefix "${virtual_hostname}"
+
+                # Adjust default document root
+                sed -i "s#DocumentRoot .*#DocumentRoot ${docroot}#g" "${vhost_file}"
+                sed -i "s#Directory .*#Directory ${docroot}>#g" "${vhost_file}"
+
+                # Create docroot lockfile
+                touch "/opt/servant/vhosts_custom/${virtual_hostname}/${hashsum}_docroot"
+
+                # Make sure to restart Apache at the end of the script
+                touch /opt/servant/apache.restart
             fi
 
-            echo "... Setting DocumentRoot to \"${docroot}\"" | prefix "${virtual_hostname}"
+            # If custom server alias
+            if [[ ! -z "${config_alias}" ]]; then
+                echo "... Adding \"${config_alias}\" as ServerAlias" | prefix "${virtual_hostname}"
 
-            # Adjust default document root
-            sed -i "s#DocumentRoot .*#DocumentRoot ${docroot}#g" "${vhost_file}"
-            sed -i "s#Directory .*#Directory ${docroot}>#g" "${vhost_file}"
+                # Remove possible outdated hashfiles
+                rm /opt/servant/vhosts_custom/${virtual_hostname}/*_alias 2>/dev/null
 
-            # Create docroot lockfile
-            touch "/opt/servant/vhosts_custom/${virtual_hostname}/${hashsum}_docroot"
+                # Reset possible previous Alias
+                sed -i '/ServerAlias/d' "${vhost_file}"
 
-            # Make sure to restart Apache at the end of the script
-            touch /opt/servant/apache.restart
-        fi
+                # Add server alias
+                sed -i "/ServerName .*/a \    ServerAlias ${config_alias}" "${vhost_file}"
 
-        # If custom server alias
-        if [[ ! -z "${config_alias}" ]]; then
-            echo "... Adding \"${config_alias}\" as ServerAlias" | prefix "${virtual_hostname}"
+                 # Create alias lockfile
+                touch "/opt/servant/vhosts_custom/${virtual_hostname}/${hashsum}_alias"
 
-            # Remove possible outdated hashfiles
-            rm /opt/servant/vhosts_custom/${virtual_hostname}/*_alias 2>/dev/null
-
-            # Reset possible previous Alias
-            sed -i '/ServerAlias/d' "${vhost_file}"
-
-            # Add server alias
-            sed -i "/ServerName .*/a \    ServerAlias ${config_alias}" "${vhost_file}"
-
-             # Create alias lockfile
-            touch "/opt/servant/vhosts_custom/${virtual_hostname}/${hashsum}_alias"
-
-            # Make sure to restart Apache at the end of the script
-            touch /opt/servant/apache.restart
+                # Make sure to restart Apache at the end of the script
+                touch /opt/servant/apache.restart
+            fi
+        else
+            echo "Invalid JSON format in \"${lockfile}\". Skipping customization..." | prefix "JSON"
         fi
     fi
 done

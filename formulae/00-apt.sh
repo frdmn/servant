@@ -53,8 +53,9 @@ fi
 
 # Check for pending upgrade/autoremove actions
 if [[ $(apt-get -s upgrade | wc -l) != 4 ]]; then
+    echo "Apt packages outdated or stale..." | prefix "updates"
     # Upgrade system packages
-    sudo apt-get upgrade -y 2>&1 | prefix "upgrade"
+    sudo apt-get dist-upgrade -y 2>&1 | prefix "upgrade"
     sudo apt-get autoremove -y 2>&1 | prefix "autoremove"
 fi
 

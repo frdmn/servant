@@ -53,7 +53,7 @@ end
 # Create array of static and custom vhosts for vagrant-servant-hosts-provisioner
 static_hosts = %w(servant.dev webserver.dev phpmyadmin.dev phpinfo.dev adminer.dev)
 custom_hosts = Dir.glob(File.dirname(__FILE__) + "/public/*").select{|f| File.directory?(f)}.map{|f| File.basename(f)}
-custom_aliases = Dir.glob(File.dirname(__FILE__) + "/public/**/servant.json").map{|f| JSON.parse(File.read(f))['server_alias'] if valid_json?(File.read(f))}.compact.join(", ")
+custom_aliases = Dir.glob(File.dirname(__FILE__) + "/public/**/servant.json").map{|f| JSON.parse(File.read(f))['server_alias'] if valid_json?(File.read(f))}.compact.join(" ")
 total_hosts = [*static_hosts, *custom_hosts, *custom_aliases]
 
 ###

@@ -55,8 +55,8 @@ fi
 if [[ $(apt-get -s upgrade | wc -l) != 4 ]]; then
     echo "Apt packages outdated or stale..." | prefix "updates"
     # Upgrade system packages
-    sudo apt-get dist-upgrade -y 2>&1 | prefix "upgrade"
-    sudo apt-get autoremove -y 2>&1 | prefix "autoremove"
+    sudo apt-get dist-upgrade -y --force-yes 2>&1 | prefix "upgrade"
+    sudo apt-get autoremove -y --force-yes 2>&1 | prefix "autoremove"
 fi
 
 # Exit without errors

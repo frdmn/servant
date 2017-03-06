@@ -9,9 +9,10 @@ Installation
 
 2. Clone this repository: ::
 
-    cd
+    cd ~
     git clone https://github.com/frdmn/servant
+    cd servant
 
-3. Copy the sample configuration file into your ``$HOME``: ::
+3. Copy the sample configuration: ::
 
-    cp servant/config.sample.json servant/config.json
+    cp config.sample.json config.json
